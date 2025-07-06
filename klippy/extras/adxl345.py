@@ -362,6 +362,13 @@ class ADXL345:
             "query_adxl345_status oid=%c",
             "adxl345_status oid=%c clock=%u query_ticks=%u next_sequence=%hu"
             " buffered=%c fifo=%c limit_count=%hu", oid=self.oid, cq=cmdqueue)
+
+    def check_connected(self):
+        if self.mcu.non_critical_disconnected:
+            raise self.printer.command_error(
+                f"ADXL: {self.name} could not connect because mcu: {self.mcu.get_name()} is non_critical_disconnected!"
+            )
+
     def read_reg(self, reg):
         params = self.spi.spi_transfer([reg | REG_MOD_READ, 0x00])
         response = bytearray(params['response'])
@@ -514,6 +521,7 @@ class ADXL345:
         hdr = ('time', 'x_acceleration', 'y_acceleration', 'z_acceleration')
         web_request.send({'header': hdr})
     def start_internal_client(self):
+        self.check_connected()
         cconn = self.api_dump.add_internal_client()
         return AccelQueryHelper(self.printer, cconn)
 

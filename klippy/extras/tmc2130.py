@@ -255,6 +255,8 @@ class MCU_TMC_SPI:
         self.mutex = self.tmc_spi.mutex
         self.name_to_reg = name_to_reg
         self.fields = fields
+        self.mcu = self.tmc_spi.spi.get_mcu()
+
     def get_fields(self):
         return self.fields
     def get_register(self, reg_name):

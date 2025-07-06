@@ -219,6 +219,8 @@ class MCU_TMC_uart:
         self.instance_id, self.addr, self.mcu_uart = lookup_tmc_uart_bitbang(
             config, max_addr)
         self.mutex = self.mcu_uart.mutex
+        self.mcu = self.mcu_uart.mcu
+
     def get_fields(self):
         return self.fields
     def _do_get_register(self, reg_name):
