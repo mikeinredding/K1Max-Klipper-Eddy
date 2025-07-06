@@ -243,7 +243,7 @@ class TriggerDispatch:
         trsyncs = {trsync.get_mcu(): trsync for trsync in self._trsyncs}
         trsync = trsyncs.get(stepper.get_mcu())
         if trsync is None:
-            if stepper.get_mcu() is MCU:
+            if isinstance(stepper.get_mcu(), MCU):
                 trsync = MCU_trsync(stepper.get_mcu(), self._trdispatch)
             else:
                 trsync = creality_mcu.MCU_trsync(stepper.get_mcu(), self._trdispatch)
@@ -267,9 +267,12 @@ class TriggerDispatch:
         if len(self._trsyncs) == 1:
             expire_timeout = TRSYNC_SINGLE_MCU_TIMEOUT
         for i, trsync in enumerate(self._trsyncs):
-            report_offset = float(i) / len(self._trsyncs)
-            trsync.start(print_time, report_offset,
-                         self._trigger_completion, expire_timeout)
+            if isinstance(trsync, MCU_trsync):
+                report_offset = float(i) / len(self._trsyncs)
+                trsync.start(print_time, report_offset,
+                            self._trigger_completion, expire_timeout)
+            else:
+                trsync.start(print_time, self._trigger_completion, expire_timeout)
         etrsync = self._trsyncs[0]
         ffi_main, ffi_lib = chelper.get_ffi()
         ffi_lib.trdispatch_start(self._trdispatch, etrsync.REASON_HOST_REQUEST)
