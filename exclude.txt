@@ -1,0 +1,6 @@
+.git/
+.git*
+.DS_Store
+/install.sh
+/include.txt
+/exclude.txt
