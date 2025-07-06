@@ -1227,10 +1227,10 @@ def error_help(msg):
     return ""
 
 def _obtain_MCU_class(config):
-    if config.getboolean('upgrade_implemetation', False):
-        return upgrade_mcu.MCU
-    else:
+    if config.getboolean('stock_implementation', True):
         return MCU
+    else:
+        return upgrade_mcu.MCU
 
 def add_printer_objects(config):
     printer = config.get_printer()
