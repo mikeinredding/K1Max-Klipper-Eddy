@@ -5,6 +5,7 @@
 # This file may be distributed under the terms of the GNU GPLv3 license.
 import sys, os, zlib, logging, math
 import serialhdl, msgproto, pins, chelper, clocksync
+from upgrade import mcu as upgrade_mcu
 
 class error(Exception):
     pass
@@ -1225,13 +1226,21 @@ def error_help(msg):
                 return help_msg
     return ""
 
+def _obtain_MCU_class(config):
+    if config.getboolean('upgrade_implemetation', False):
+        return upgrade_mcu.MCU
+    else:
+        return MCU
+
 def add_printer_objects(config):
     printer = config.get_printer()
     reactor = printer.get_reactor()
     mainsync = clocksync.ClockSync(reactor)
-    printer.add_object('mcu', MCU(config.getsection('mcu'), mainsync))
+    mcu = _obtain_MCU_class(config.getsection('mcu'))
+    printer.add_object('mcu', mcu(config.getsection('mcu'), mainsync))
     for s in config.get_prefix_sections('mcu '):
-        printer.add_object(s.section, MCU(
+        mcu = _obtain_MCU_class(s)
+        printer.add_object(s.section, mcu(
             s, clocksync.SecondarySync(reactor, mainsync)))
 
 def get_printer_mcu(printer, name):

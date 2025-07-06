@@ -4,7 +4,9 @@
 #
 # This file may be distributed under the terms of the GNU GPLv3 license.
 import sys, os, zlib, logging, math
-import serialhdl, msgproto, pins, chelper, clocksync
+import pins, chelper, clocksync
+from . import serialhdl, msgproto
+import mcu as creality_mcu
 
 class error(Exception):
     pass
@@ -241,7 +243,10 @@ class TriggerDispatch:
         trsyncs = {trsync.get_mcu(): trsync for trsync in self._trsyncs}
         trsync = trsyncs.get(stepper.get_mcu())
         if trsync is None:
-            trsync = MCU_trsync(stepper.get_mcu(), self._trdispatch)
+            if stepper.get_mcu() is MCU:
+                trsync = MCU_trsync(stepper.get_mcu(), self._trdispatch)
+            else:
+                trsync = creality_mcu.MCU_trsync(stepper.get_mcu(), self._trdispatch)
             self._trsyncs.append(trsync)
         trsync.add_stepper(stepper)
         # Check for unsupported multi-mcu shared stepper rails
@@ -503,6 +508,9 @@ class MCU_adc:
         self._min_sample = minval
         self._max_sample = maxval
         self._range_check_count = range_check_count
+    def setup_minmax(self, sample_time, sample_count,
+                         minval=0., maxval=1., range_check_count=0):
+        self.setup_adc_sample(sample_time, sample_count, minval, maxval, range_check_count)
     def setup_adc_callback(self, report_time, callback):
         self._report_time = report_time
         self._callback = callback
@@ -573,7 +581,7 @@ class MCU:
                     or self._serialport.startswith("/tmp/klipper_host_")):
                 self._baud = config.getint('baud', 250000, minval=2400)
         # Restarts
-        restart_methods = [None, 'arduino', 'cheetah', 'command', 'rpi_usb']
+        restart_methods = {None: None, 'arduino': 'arduino', 'cheetah': 'cheetah', 'command': 'command', 'rpi_usb': 'rpi_usb'}
         self._restart_method = 'command'
         if self._baud:
             self._restart_method = config.getchoice('restart_method',
@@ -633,7 +641,6 @@ class MCU:
         self._init_cmds_post_inits = []
         self._restart_cmds_post_inits = []
         # Register handlers
-        printer.load_object(config, "error_mcu")
         printer.register_event_handler("klippy:firmware_restart",
                                        self._firmware_restart)
         printer.register_event_handler("klippy:mcu_identify",
@@ -1069,7 +1076,7 @@ class MCU:
         self._reserved_move_slots += 1
     def register_flush_callback(self, callback):
         self._flush_callbacks.append(callback)
-    def flush_moves(self, print_time, clear_history_time):
+    def flush_moves(self, print_time):
         if self._steppersync is None:
             return
         clock = self.print_time_to_clock(print_time)
@@ -1077,10 +1084,7 @@ class MCU:
             return
         for cb in self._flush_callbacks:
             cb(print_time, clock)
-        clear_history_clock = \
-            max(0, self.print_time_to_clock(clear_history_time))
-        ret = self._ffi_lib.steppersync_flush(self._steppersync, clock,
-                                              clear_history_clock)
+        ret = self._ffi_lib.steppersync_flush(self._steppersync, clock)
         if ret:
             raise error("Internal error in MCU '%s' stepcompress"
                         % (self._name,))

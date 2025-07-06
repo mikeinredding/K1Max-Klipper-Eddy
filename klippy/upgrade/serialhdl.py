@@ -6,7 +6,8 @@
 import logging, threading, os
 import serial
 
-import msgproto, chelper, util
+import chelper, util
+from . import msgproto
 
 class error(Exception):
     pass
