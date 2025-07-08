@@ -93,4 +93,4 @@ Follow the [SimpleAF instruction](https://pellcorp.github.io/creality-wiki/btted
 - nozzle height mapping calibration
 - temperature calibration.
 
-**IMPORTANT:** Please pay an attenction that stock Creality ```G28 X Y``` implementation does not move carriage to bed center. To avoid that you may move it to center (x=110, y=110 for K1/K1C/K1SE) with fluid. You also need to run ```_SET_KIN_MAX_Z``` macro after ```G28 X Y``` even when proceed with *Mapping Eddy Readings To Nozzle Heights*.
+**IMPORTANT:** Please pay an attention that stock Creality ```G28 X Y``` implementation does not move carriage to bed center. To avoid that you may move it to center (x=110, y=110 for K1/K1C/K1SE) with fluidd or mainsail. You also need to run ```_SET_KIN_MAX_Z``` macro after ```G28 X Y``` even when proceed with *Mapping Eddy Readings To Nozzle Heights* calibration according to SimpleAF instructions.
