@@ -4,3 +4,4 @@
 /install.sh
 /include.txt
 /exclude.txt
+/config/
