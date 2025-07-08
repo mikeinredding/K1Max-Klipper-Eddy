@@ -39,7 +39,7 @@ cd K1-Klipper-Eddy
 ```
 3. Run installation script:
 ```bash
-./install.sh
+sh ./install.sh
 ```
 4. Copy eddy support files to your klipper configuration directory:
 ```bash
