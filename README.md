@@ -1,8 +1,8 @@
 # K1-Klipper-Eddy
 
-This project is centaur with a body of stock creality K1 series firmware v2.3.5.35 (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support.
+This project is centaur with a body of stock creality K1 series firmware v2.3.5.35 (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support. The project ports several modules, code portions even configuration files from famous [pellcorp/SimpleAF project](https://pellcorp.github.io/creality-wiki/).
 
-NOTES: The project is still in develop phaze. All you ary doing you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
+NOTES: The project is still in develop phaze. Everything you are doing, you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
 
 ## Goals
 The main goal of the project is to allow Creality CFS users to switch from PRTouch v2 to BTT Eddy for faster and more precise automated bed leveling.
@@ -82,7 +82,8 @@ endstop_pin: probe:z_virtual_endstop
 serial: /dev/serial/by-id/usb-Klipper_rp2040_xxxxxxxxx
 ...
 ```
-10.  Reboot your printer.
+10. Depending of [BTT Eddy mount option](https://pellcorp.github.io/creality-wiki/btteddy/#mount-options) you choose, correct *x_offset* and *y_offset* in *btteddy.cfg* under *[probe_eddy_current btt_eddy]* section. Defaault values given for "Default" mount option.
+11.  Reboot your printer.
 
 ## Calibration
 
