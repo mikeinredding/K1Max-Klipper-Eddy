@@ -74,16 +74,17 @@ The result will look like that:
 ...
 endstop_pin: probe:z_virtual_endstop
 ```
-8. Type ```ls /dev/serial/by-id/*``` into the printer command line. The found device will be what you enter into your *btteddy.cfg* under *[mcu eddy]* for the *serial* variable. 
-9. Change Eddy MCU path inside *btteddy.cfg* file:
+8. Comment out whole *[prtouch_v2]* and *[bed_mesh]* sections of your *printer.cfg* klipper configuration file with hash sign or delete them at all.
+9. Type ```ls /dev/serial/by-id/*``` into the printer command line. The found device will be what you enter into your *btteddy.cfg* under *[mcu eddy]* for the *serial* variable. 
+10. Change Eddy MCU path inside *btteddy.cfg* file:
 ```
 [mcu eddy]
 ...
 serial: /dev/serial/by-id/usb-Klipper_rp2040_xxxxxxxxx
 ...
 ```
-10. Depending of [BTT Eddy mount option](https://pellcorp.github.io/creality-wiki/btteddy/#mount-options) you choose, correct *x_offset* and *y_offset* in *btteddy.cfg* under *[probe_eddy_current btt_eddy]* section. Defaault values given for "Default" mount option.
-11.  Reboot your printer.
+11.  Depending of [BTT Eddy mount option](https://pellcorp.github.io/creality-wiki/btteddy/#mount-options) you choose, correct *x_offset* and *y_offset* in *btteddy.cfg* under *[probe_eddy_current btt_eddy]* section. Defaault values given for "Default" mount option.
+22.   Reboot your printer.
 
 ## Calibration
 
@@ -91,3 +92,5 @@ Follow the [SimpleAF instruction](https://pellcorp.github.io/creality-wiki/btted
 - drive current calibration
 - nozzle height mapping calibration
 - temperature calibration.
+
+**IMPORTANT:** Please pay an attenction that stock Creality ```G28 X Y``` implementation does not move carriage to bed center. To avoid that you may move it to center (x=110, y=110 for K1/K1C/K1SE) with fluid. You also need to run ```_SET_KIN_MAX_Z``` macro after ```G28 X Y``` even when proceed with *Mapping Eddy Readings To Nozzle Heights*.
