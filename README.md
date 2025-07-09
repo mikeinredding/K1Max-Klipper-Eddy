@@ -7,7 +7,7 @@ NOTES: The project is still in develop phaze. Everything you are doing, you are 
 ## Goals
 The main goal of the project is to allow Creality CFS users to switch from PRTouch v2 to BTT Eddy for faster and more precise automated bed leveling.
 
-However there are some technical goals achiving of that must allow to successfuly adopt the project to upcoming versions of either Creality stock firmware or SimpleAF:
+However there are some technical goals achieving of that must allow to successfuly adopt the project to upcoming versions of either Creality stock firmware or SimpleAF:
 1. Keep as many stock creality modules untouched as possible.
 2. Port as few SimpleAF modules without changes as possible.
 3. Preserve SimpleAF Eddy MCU compatibility to simplify SimpleAF migration in future when and if it will become CFS compatible.
@@ -51,7 +51,7 @@ cp btteddy.cfg btteddy_macro.cfg /usr/data/printer_data/config
 [include btteddy.cfg]
 [include btteddy_macro.cfg]
 ```
-6. Find and comment out with hash sign those lines in *[stepper_z]* section of your *printer.cfg* klipper configuration file:
+6. Find and comment out with hash sign those lines in ```[stepper_z]``` section of your *printer.cfg* klipper configuration file:
 ```
 [stepper_z]
 ...
@@ -68,14 +68,14 @@ The result will look like that:
 ...
 ```
 
-7. Add following line in *[stepper_z]* section of your *printer.cfg* klipper configuration file:
+7. Add following line in ```[stepper_z]``` section of your *printer.cfg* klipper configuration file:
 ```
 [stepper_z]
 ...
 endstop_pin: probe:z_virtual_endstop
 ```
-8. Comment out whole *[prtouch_v2]* and *[bed_mesh]* sections of your *printer.cfg* klipper configuration file with hash sign or delete them at all.
-9. Type ```ls /dev/serial/by-id/*``` into the printer command line. The found device will be what you enter into your *btteddy.cfg* under *[mcu eddy]* for the *serial* variable. 
+8. Comment out whole ```[prtouch_v2]``` and ```[bed_mesh]``` sections of your *printer.cfg* klipper configuration file with hash sign or delete them at all. Commenting out the ```[mcu leveling_mcu]``` section will allow you to avoid leveling MCU overheating when using high bed temperatures and prevent print emergency stops. Comment it if you do not use it for some purposes. 
+9. Type ```ls /dev/serial/by-id/*``` into the printer command line. The found device will be what you enter into your *btteddy.cfg* under ```[mcu eddy]``` for the *serial* variable. 
 10. Change Eddy MCU path inside *btteddy.cfg* file:
 ```
 [mcu eddy]
@@ -83,7 +83,7 @@ endstop_pin: probe:z_virtual_endstop
 serial: /dev/serial/by-id/usb-Klipper_rp2040_xxxxxxxxx
 ...
 ```
-11.  Depending of [BTT Eddy mount option](https://pellcorp.github.io/creality-wiki/btteddy/#mount-options) you choose, correct *x_offset* and *y_offset* in *btteddy.cfg* under *[probe_eddy_current btt_eddy]* section. Defaault values given for "Default" mount option.
+11.  Depending of [BTT Eddy mount option](https://pellcorp.github.io/creality-wiki/btteddy/#mount-options) you choose, correct *x_offset* and *y_offset* in *btteddy.cfg* under ```[probe_eddy_current btt_eddy]``` section. Defaault values given for "Default" mount option.
 22.   Reboot your printer.
 
 ## Calibration
