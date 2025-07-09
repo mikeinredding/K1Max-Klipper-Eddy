@@ -417,6 +417,7 @@ class EddyScanningProbe:
 class PrinterEddyProbe:
     def __init__(self, config):
         self.printer = config.get_printer()
+        self.z_offset = config.getfloat('z_offset', minval=0.)
         self.calibration = EddyCalibration(config)
         # Sensor type
         sensors = { "ldc1612": ldc1612.LDC1612 }
