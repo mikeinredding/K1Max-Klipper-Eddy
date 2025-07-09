@@ -44,10 +44,11 @@ sh ./install.sh
 4. Copy eddy support files to your klipper configuration directory:
 ```bash
 cd config
-cp btteddy.cfg btteddy_macro.cfg /usr/data/printer_data/config
+cp btteddy.cfg btteddy_macro.cfg fan_control.cfg /usr/data/printer_data/config
 ```
 5. Add following lines to the beginning of your *printer.cfg* klipper configuration file:
 ```
+[include fan_control.cfg]
 [include btteddy.cfg]
 [include btteddy_macro.cfg]
 ```
