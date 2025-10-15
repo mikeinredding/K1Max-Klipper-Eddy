@@ -1,7 +1,7 @@
 # *** Fork is a work in progress also working to modify for the k1max keeping the stock homing function. Below is original info from vsevolod-volkov/K1-Klipper-Eddy big thanks!
 # K1-Klipper-Eddy
 
-This project is centaur with a body of stock creality K1 series firmware v2.3.5.35 (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support. The project ports several modules, code portions even configuration files from famous [pellcorp/SimpleAF project](https://pellcorp.github.io/creality-wiki/).
+This project is centaur with a body of stock creality K1 series firmware v2.3.5.35(**I think this was meant to be 2.4.5.33 as .34 is most current**) (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support. The project ports several modules, code portions even configuration files from famous [pellcorp/SimpleAF project](https://pellcorp.github.io/creality-wiki/).
 
 NOTES: The project is still in develop phaze. Everything you are doing, you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
 
@@ -15,7 +15,7 @@ However there are some technical goals achieving of that must allow to successfu
 
 ## Prerequisites
 1. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
-2. The git out of the box in v2.3.5.35 does not work with github.You shoud install functioning git before continue. The simplest way to do that - use entware:
+2. The git out of the box in v2.3.5.35(**again I belive this should be .33**) does not work with github.You shoud install functioning git before continue. The simplest way to do that - use entware:
 ```bash
 wget http://bin.entware.net/mipselsf-k3.4/installer/generic.sh -O - | sh
 export PATH=/opt/bin:/opt/sbin:$PATH
