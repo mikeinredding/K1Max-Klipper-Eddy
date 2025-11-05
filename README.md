@@ -1,7 +1,7 @@
 # *** Fork is a work in progress also working to modify for the k1max to allow for z homing not having to rely on the Eddy duo(originally wanted to keep stock homing but in Klipper there can be only one!probe that is). Below is original info from vsevolod-volkov/K1-Klipper-Eddy big thanks!
 # K1-Klipper-Eddy
 
-This project is centaur with a body of stock creality K1 series firmware v2.3.5.35(**I think this was meant to be 2.4.5.33 as .34 is most current**) (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support. The project ports several modules, code portions even configuration files from famous [pellcorp/SimpleAF project](https://pellcorp.github.io/creality-wiki/).
+This project is centaur with a body of stock creality K1 series firmware v2.3.5.35(**I think this was meant to be 2.3.5.33 as .34 is most current**) (yeah, it is for CFS) and head in the form of several SimpleAF modules that are required for purposes of BTT Eddy support. The project ports several modules, code portions even configuration files from famous [pellcorp/SimpleAF project](https://pellcorp.github.io/creality-wiki/).
 
 NOTES: The project is still in develop phaze. Everything you are doing, you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
 
