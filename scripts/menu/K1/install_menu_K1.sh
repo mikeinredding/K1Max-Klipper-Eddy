@@ -26,10 +26,10 @@ function install_menu_k1() {
     read -p " ${white}Type your choice and validate with Enter: ${yellow}" install_menu_opt
     case "${install_menu_opt}" in
       1)
-        if [ -d "$BTTEDDY_FOLDER" ]; then  
-          error_msg "BTTEddyDuo already installed!"
+        if [ -d "EDDY_FOLDER" ]; then  
+          error_msg "EddyDuo already installed!"
         else
-          run "install_btteddyduo" "install_menu_ui_k1"
+          run "install_eddyduo" "install_menu_ui_k1"
         fi;;
       2)
 	if [ ! -L "$SCREWTILTADJUST_FILE" ]; then
