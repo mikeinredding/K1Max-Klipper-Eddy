@@ -19,9 +19,15 @@ function set_paths() {
   USR_SHARE="/usr/share"
   PRINTER_DATA_FOLDER="$USR_DATA/printer_data"
 
-  # BTTEDDYHelper Script #
-  BTTEHS_FILES="${BTTEDDYHELPER_SCRIPT_FOLDER}/files"
+  # Helper Script #
+  HELPER_SCRIPT_FOLDER="$(dirname "$(readlink -f /usr/bin/helper)")"
+  HS_FILES="${HELPER_SCRIPT_FOLDER}/files"
   HS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Helper-Script"
+  HS_BACKUP_FOLDER="$USR_DATA/helper-script-backup"
+
+  # EDDYHelper Script #
+  EDDYHS_FILES="${EDDYHELPER_SCRIPT_FOLDER}/files"
+  EDDYHS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Eddy-Helper"
   
   # Configuration Files #
   MOONRAKER_CFG="${PRINTER_DATA_FOLDER}/config/moonraker.conf"
@@ -30,10 +36,10 @@ function set_paths() {
   
   # Moonraker #
   MOONRAKER_FOLDER="${USR_DATA}/moonraker"
-  MOONRAKER_URL1="${BTTEHS_FILES}/moonraker/moonraker.tar.gz"
-  MOONRAKER_URL2="${BTTEHS_FILES}/moonraker/moonraker.conf"
-  MOONRAKER_URL3="${BTTEHS_FILES}/moonraker/moonraker.asvc"
-  MOONRAKER_SERVICE_URL="${BTTEHS_FILES}/services/S56moonraker_service"
+  MOONRAKER_URL1="${HS_FILES}/moonraker/moonraker.tar.gz"
+  MOONRAKER_URL2="${HS_FILES}/moonraker/moonraker.conf"
+  MOONRAKER_URL3="${HS_FILES}/moonraker/moonraker.asvc"
+  MOONRAKER_SERVICE_URL="${HS_FILES}/services/S56moonraker_service"
   
   # Nginx #
   NGINX_FOLDER="${USR_DATA}/nginx"
@@ -45,9 +51,9 @@ function set_paths() {
   KLIPPER_EXTRAS_FOLDER="/usr/share/klipper/klippy/extras"
   KLIPPER_CONFIG_FOLDER="${PRINTER_DATA_FOLDER}/config"
   KLIPPER_KLIPPY_FOLDER="/usr/share/klipper/klippy"
-  KLIPPER_SERVICE_URL="${BTTEHS_FILES}/services/S55klipper_service"
-  KLIPPER_GCODE_URL="${BTTEHS_FILES}/fixes/gcode.py"
-  KLIPPER_GCODE_3V3_URL="${BTTEHS_FILES}/fixes/gcode_3v3.py"
+  KLIPPER_SERVICE_URL="${HS_FILES}/services/S55klipper_service"
+  KLIPPER_GCODE_URL="${HS_FILES}/fixes/gcode.py"
+  KLIPPER_GCODE_3V3_URL="${HS_FILES}/fixes/gcode_3v3.py"
   
   # Fluidd #
   FLUIDD_FOLDER="${USR_DATA}/fluidd"
@@ -59,23 +65,29 @@ function set_paths() {
   
   # Klipper Gcode Shell Command #
   KLIPPER_SHELL_FILE="${KLIPPER_EXTRAS_FOLDER}/gcode_shell_command.py"
-  KLIPPER_SHELL_URL="${BTTEHS_FILES}/gcode-shell-command/gcode_shell_command.py"
+  KLIPPER_SHELL_URL="${HS_FILES}/gcode-shell-command/gcode_shell_command.py"
   
   # Screws Tilt Adjust Support #
-  SCREWS_ADJUST_FILE="${BTTEHS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
-  SCREWS_ADJUST_URL="${BTTEHS_FILES}/screws-tilt-adjust/screws_tilt_adjust.py"
-  SCREWS_ADJUST_K1_URL="${BTTEHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
-  SCREWS_ADJUST_K1M_URL="${BTTEHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
+  SCREWS_ADJUST_FILE="${HS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
+  SCREWS_ADJUST_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws_tilt_adjust.py"
+  SCREWS_ADJUST_K1_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
+  SCREWS_ADJUST_K1M_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
 
   # Cleanup #
   CLEANUP_FILE="${PRINTER_DATA_FOLDER}/cleanup.cfg"
-  CLEANUP_CONFIG_FILE="${BTTEHS_FILES}/cleanup/cleanup.cfg"
+  CLEANUP_CONFIG_FILE="${EDDYHS_FILES}/cleanup/cleanup.cfg"
 
-  # BttEddyDuo #
-  BTTEDDY_FOLDER="${PRINTER_DATA_FOLDER}/config/btteddyduo"
-  BTTEDDY_K1_URL="${BTTEHS_FILES}/btteddy/btteddyk1.cfg"
-  BTTEDDY_K1M_URL="${BTTEHS_FILES}/btteddy/btteddyk1max.cfg"
-  BTTEDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
+  # Eddy #
+  EDDY_FOLDER="${EDDYHS_CONFIG_FOLDER}/eddy"
+  EDDY_CONFIG="${EDDY_FILES}/config"
+  EDDY_KLIPPY="${EDDY_FILES}/klippy"
+  EDDY_K1_URL="${EHS_FILES}/btteddy/config/btteddyk1.cfg"
+  EDDY_K1M_URL="${EHS_FILES}/btteddy/config/btteddyk1max.cfg"
+  EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
+  #BTTEHS_FILES="${BTTEDDYHELPER_SCRIPT_FOLDER}/files"
+  #BTTEHS_CONFIGS="${BTTEDDYHELPER_SCRIPT_FOLDER}/config"
+  #BTTEDDYHS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/BTTEddy-Helper"
+  #HS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Helper-Script"
 }
 
 function set_permissions() {

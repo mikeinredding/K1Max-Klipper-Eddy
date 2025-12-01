@@ -2,9 +2,9 @@
 
 set -e
 
-function btteddy_message(){
+function eddy_message(){
   top_line
-  title 'BTTEddyDUo' "${yellow}"
+  title 'EddyDUo' "${yellow}"
   inner_line
   hr
   echo -e " │ ${cyan}Installs Vsevolod-Volkov K1-Klipper-Eddy${white}│"
@@ -14,16 +14,16 @@ function btteddy_message(){
 }
 
 
-function install_btteddy(){
-  btteddyduo_message
+function install_eddyduo(){
+  eddy_message
   local yn
   while true; do
-    install_msg "Install BTTEddyDuo" yn
+    install_msg "Install EddyDuo" yn
     case "${yn}" in
       Y|y)
         echo -e "${white}"
-        if [ -f "$BTTEDDYHS_CONFIG_FOLDER"/btteddy/btteddy.cfg ]; then
-          rm -f "$BTTEDDYHS_CONFIG_FOLDER"/btteddy/btteddy.cfg 
+        if [ -f "$EDDYHS_CONFIG_FOLDER"/eddy/btteddy.cfg ]; then
+          rm -f "$EDDYHS_CONFIG_FOLDER"/eddy/btteddy.cfg 
         fi
         echo
         if [ "$model" = "K1" ]; then
@@ -34,16 +34,16 @@ function install_btteddy(){
               K1|k1)
                 echo -e "${white}"
                 echo -e "Info: Copying file..."
-                cp -f "$BTTEDDY_K1_URL" "$BTTEDDYHS_CONFIG_FOLDER"/btteddy/btteddy.cfg
-		cp -f "$BTTEDDY_CONFIG"/fan_control.cfg "$BTTEDDYHS_CONFIG_FOLDER/btteddy/fan_control.cfg"
-		rsync --verbose --recursive ./files/btteddy/klippy/ /usr/share/klipper/klippy/
+                cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
+		cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
+		rsync --verbose --recursive ./files/eddy/klippy/ /usr/share/klipper/klippy/
                 break;;
               K1MAX|k1max)
                 echo -e "${white}"
                 echo -e "Info: Copying files..."
-                cp -f "$BTTEDDY_K1M_URL" "$BTTEDDYHS_CONFIG_FOLDER"/btteddy/btteddy.cfg
-		cp -f "$BTTEDDY_CONFIG"/fan_control.cfg "$BTTEDDYHS_CONFIG_FOLDER/btteddy/fan_control.cfg"
-                rsync --verbose --recursive ./files/btteddy/klippy/ /usr/share/klipper/klippy/
+                cp -f "$BTTEDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
+		cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
+                rsync --verbose --recursive ./files/eddy/klippy/ /usr/share/klipper/klippy/
                 break;;
               *)
                 error_msg "Please select a correct choice!";;
@@ -52,17 +52,17 @@ function install_btteddy(){
         else
           echo -e "Shouldn't get this..."
         fi
-        if grep -q "include BTTEddy-Helper/btteddy/btteddy.cfg" "$PRINTER_CFG" ; then
-          echo -e "Info: BTTEddy configurations are already enabled in printer.cfg file..."
+        if grep -q "include eddyhelper/eddy/eddy.cfg" "$PRINTER_CFG" ; then
+          echo -e "Info: Eddy configurations are already enabled in printer.cfg file..."
         else
-          echo -e "Info: Adding BTTEddy configurations in printer.cfg file..."
-          sed -i '/\[include printer_params\.cfg\]/a \[include BTTEddy-Helper/btteddy\.cfg\]' "$PRINTER_CFG"
-	  sed -i '/\[include printer_params\.cfg\]/a \[include BTTEddy-Helper/fan_control\.cfg\]' "$PRINTER_CFG"
+          echo -e "Info: Adding Eddy configurations in printer.cfg file..."
+          sed -i '/\[include printer_params\.cfg\]/a \[include eddyhelper/eddy/eddy\.cfg\]' "$PRINTER_CFG"
+	  sed -i '/\[include printer_params\.cfg\]/a \[include eddyhelper/eddy/fan_control\.cfg\]' "$PRINTER_CFG"
 	  sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
 	  sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
 	  sed -i '/\[prtouch_v2\]/,/\[display_status\]/{ /\[display_status\]/!s/^/#/ }' "$PRINTER_CFG"
 	  sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
-	  sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER\sensorless.cfg"
+	  sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/sensorless.cfg"
 	  sed -i '/^\[mcu\]/i [force_move]\
 	  enable_force_move: True' "$PRINTER_CFG"
 	  FILE_PATH="/usr/data/printer_data/config/sensorless.cfg"
