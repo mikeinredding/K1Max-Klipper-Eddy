@@ -85,6 +85,8 @@ function set_paths() {
   EDDY_K1_URL="${EHS_FILES}/eddy/config/btteddyk1.cfg"
   EDDY_K1M_URL="${EHS_FILES}/eddy/config/btteddyk1max.cfg"
   EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
+  EDDY_KLIPPER_FOLDER="/usr/share/klipper"
+
 }
 
 function set_permissions() {
