@@ -1,12 +1,12 @@
 #!/bin/sh
-set -e
+set -x
 function eddy_message(){
   top_line
   title 'EddyDUo' "${yellow}"
   inner_line
   hr
   echo -e " ¦ ${cyan}Installs Vsevolod-Volkov K1-Klipper-Eddy functionality        ${white}¦"
-  echo -e " ¦ ${cyan}fusing (Guilouz) Creality Helper Script as a framework                                               ${white}¦"
+  echo -e " ¦ ${cyan}using (Guilouz) Creality Helper Script as a framework         ${white}¦"
   hr
   bottom_line
 }
@@ -32,6 +32,8 @@ function install_eddyduo(){
               			K1|k1)
                 			echo -e "${white}"
                 			echo -e "Info: Copying file..."
+					echo -e "$EDDY_K1_URL"
+					echo -e "$EDDY_CONFIG"
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
 				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
 				 	rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
@@ -40,9 +42,16 @@ function install_eddyduo(){
               			K1MAX|k1max)
                 			echo -e "${white}"
                 			echo -e "Info: Copying files..."
-                			cp -f "$BTTEDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
-					cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-                			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
+					echo -e "$EDDYHELPER_SCRIPT_FOLDER"
+					echo -e "$EDDY_K1M_URL"
+					echo -e "$EDDY_FOLDER"
+					echo -e "$EDDY_CONFIG"
+ 					echo -e "$EDDYHS_FILES"
+  					echo -e "$EDDYHS_CONFIG_FOLDER"
+					mkdir -p "$EDDY_FOLDER"
+                			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
+					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
+                			rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
                 		break;;
               			*)
                 			error_msg "Please select a correct choice!";;
@@ -56,13 +65,13 @@ function install_eddyduo(){
           echo -e "Info: Eddy configurations are already enabled in printer.cfg file..."
         else
         	echo -e "Info: Adding Eddy configurations in printer.cfg file..."
-        	sed -i '/\[include printer_params\.cfg\]/a \[include eddyhelper/eddy/eddy\.cfg\]' "$PRINTER_CFG"
-	  		sed -i '/\[include printer_params\.cfg\]/a \[include eddyhelper/eddy/fan_control\.cfg\]' "$PRINTER_CFG"
+        	sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/eddy\.cfg\]' "$PRINTER_CFG"
+	  		sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/fan_control\.cfg\]' "$PRINTER_CFG"
 	  		sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
 	  		sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
 	  		sed -i '/\[prtouch_v2\]/,/\[display_status\]/{ /\[display_status\]/!s/^/#/ }' "$PRINTER_CFG"
-	  		sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
-	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/sensorless.cfg"
+	  		#sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
+	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/config/sensorless.cfg"
 	  		sed -i '/^\[mcu\]/i [force_move]\
 	  		enable_force_move: True' "$PRINTER_CFG"
 	  		FILE_PATH="/usr/data/printer_data/config/sensorless.cfg"

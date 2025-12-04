@@ -1,5 +1,5 @@
 #!/bin/sh
-EDDYHELPER_SCRIPT_FOLDER="$(dirname "$(readlink -f "$0")")"
+EHS_FOLDER="$(dirname "$(readlink -f "$0")")"
 for script in "${EDDYHELPER_SCRIPT_FOLDER}/scripts/"*.sh; do . "${script}"; done
 for script in "${EDDYHELPER_SCRIPT_FOLDER}/scripts/menu/"*.sh; do . "${script}"; done
 for script in "${EDDYHELPER_SCRIPT_FOLDER}/scripts/menu/K1/"*.sh; do . "${script}"; done

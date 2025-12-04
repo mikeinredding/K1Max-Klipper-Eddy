@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -x
 
 function set_paths() {
 
@@ -26,8 +26,9 @@ function set_paths() {
   HS_BACKUP_FOLDER="$USR_DATA/helper-script-backup"
 
   # EDDYHelper Script #
-  EDDYHS_FILES="${EDDYHELPER_SCRIPT_FOLDER}/files"
-  EDDYHS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Eddy-Helper"
+  EHS_FILES="${EDDYHELPER_SCRIPT_FOLDER}/files"
+  EHS_CONFIGS="${EDDYHELPER_SCRIPT_FOLDER}/config"
+  EHS_PRINTER_DATA_FOLDER="$PRINTER_DATA_FOLDER/config/Eddy-Helper"
   
   # Configuration Files #
   MOONRAKER_CFG="${PRINTER_DATA_FOLDER}/config/moonraker.conf"
@@ -78,16 +79,12 @@ function set_paths() {
   CLEANUP_CONFIG_FILE="${EDDYHS_FILES}/cleanup/cleanup.cfg"
 
   # Eddy #
-  EDDY_FOLDER="${EDDYHS_CONFIG_FOLDER}/eddy"
-  EDDY_CONFIG="${EDDY_FILES}/config"
-  EDDY_KLIPPY="${EDDY_FILES}/klippy"
-  EDDY_K1_URL="${EHS_FILES}/btteddy/config/btteddyk1.cfg"
-  EDDY_K1M_URL="${EHS_FILES}/btteddy/config/btteddyk1max.cfg"
+  EDDY_FOLDER="${EHS_PRINTER_DATA_FOLDER}/eddy"
+  EDDY_CONFIG="${EDDY_FOLDER}/config"
+  EDDY_KLIPPY="${EHS_FILES}/eddy/klippy"
+  EDDY_K1_URL="${EHS_FILES}/eddy/config/btteddyk1.cfg"
+  EDDY_K1M_URL="${EHS_FILES}/eddy/config/btteddyk1max.cfg"
   EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
-  #BTTEHS_FILES="${BTTEDDYHELPER_SCRIPT_FOLDER}/files"
-  #BTTEHS_CONFIGS="${BTTEDDYHELPER_SCRIPT_FOLDER}/config"
-  #BTTEDDYHS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/BTTEddy-Helper"
-  #HS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Helper-Script"
 }
 
 function set_permissions() {
