@@ -33,8 +33,10 @@ function script_title() {
 
 function main_menu_ui() {
   top_line
-  title "• BTTEDDYHELPER SCRIPT K1 by MikeinRedding$(script_title) •" "${blue}"
-  title "Based on(Guilouz) Creality Helper Script and Vsevolod-Volkov K1-Klipper-Eddy" "${white}"
+  title "• EDDYHELPER SCRIPT K1 by MikeinRedding $(script_title) •" "${blue}"
+  title "Based on(Guilouz) Creality Helper Script and " "${white}"
+  title "Vsevolod-Volkov K1-Klipper-Eddy. Huge thanks for your work!" "${white}"
+
   inner_line
   main_menu_option '1' '[Install]' 'Menu'
   main_menu_option '2' '[Remove]' 'Menu not implemented maybe later'
