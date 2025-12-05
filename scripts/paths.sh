@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -e
 
 function set_paths() {
 
@@ -68,16 +68,6 @@ function set_paths() {
   KLIPPER_SHELL_FILE="${KLIPPER_EXTRAS_FOLDER}/gcode_shell_command.py"
   KLIPPER_SHELL_URL="${HS_FILES}/gcode-shell-command/gcode_shell_command.py"
   
-  # Screws Tilt Adjust Support #
-  SCREWS_ADJUST_FILE="${HS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
-  SCREWS_ADJUST_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws_tilt_adjust.py"
-  SCREWS_ADJUST_K1_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
-  SCREWS_ADJUST_K1M_URL="${EDDYHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
-
-  # Cleanup #
-  CLEANUP_FILE="${PRINTER_DATA_FOLDER}/cleanup.cfg"
-  CLEANUP_CONFIG_FILE="${EDDYHS_FILES}/cleanup/cleanup.cfg"
-
   # Eddy #
   EDDY_FOLDER="${EHS_PRINTER_DATA_FOLDER}/eddy"
   EDDY_CONFIG="${EDDY_FOLDER}/config"
@@ -86,6 +76,18 @@ function set_paths() {
   EDDY_K1M_URL="${EHS_FILES}/eddy/config/btteddyk1max.cfg"
   EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
   EDDY_KLIPPER_FOLDER="/usr/share/klipper"
+
+ # Cleanup #
+  CLEANUP_FILE="${EHS_CONFIGS}/cleanup.cfg"
+  CLEANUP_FOLDER="${EHS_PRINTER_DATA_FOLDER}/cleanup"
+  CLEANUP_CONFIG_FILE="${CLEANUP_FOLDER}/cleanup.cfg"
+
+ # Screws Tilt Adjust Support #
+  SCREWS_ADJUST_FILE="${HS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
+  SCREWS_ADJUST_URL="${EHS_FILES}/screws-tilt-adjust/screws_tilt_adjust.cfg"
+  SCREWS_ADJUST_K1_URL="${EHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
+  SCREWS_ADJUST_K1M_URL="${EHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
+
 
 }
 

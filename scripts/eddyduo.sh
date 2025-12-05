@@ -1,12 +1,13 @@
 #!/bin/sh
-set -x
+set -e
+
 function eddy_message(){
   top_line
   title 'EddyDUo' "${yellow}"
   inner_line
   hr
-  echo -e " ¦ ${cyan}Installs Vsevolod-Volkov K1-Klipper-Eddy functionality        ${white}¦"
-  echo -e " ¦ ${cyan}using (Guilouz) Creality Helper Script as a framework         ${white}¦"
+  echo -e " â”‚ ${cyan}Installs Vsevolod-Volkov K1-Klipper-Eddy functionality         ${white}â”‚"
+  echo -e " â”‚ ${cyan}using (Guilouz) Creality Helper Script as a framework          ${white}â”‚"
   hr
   bottom_line
 }

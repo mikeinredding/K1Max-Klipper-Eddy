@@ -1,14 +1,13 @@
 #!/bin/sh
 
 set -e
-
 function screws_tilt_adjust_message(){
   top_line
   title 'Screws Tilt Adjust Support' "${yellow}"
   inner_line
   hr
-  echo -e " │ ${cyan}Modifys Creality Helper Script Screws Tilt Adjust for Eddy Duo             ${white}│"
-  echo -e " │ ${cyan}functionality.                                               ${white}│"
+  echo -e " │ ${cyan}Modifys Creality Helper Script Screws Tilt Adjust for Eddy Duo ${white}│"
+  echo -e " │ ${cyan}functionality.                                                 ${white}│"
   hr
   bottom_line
 }
@@ -21,9 +20,6 @@ function modify_screws_tilt_adjust(){
     case "${yn}" in
       Y|y)
         echo -e "${white}"
-        if [ -f "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg ]; then
-          rm -f "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
-        fi
         echo
         if [ "$model" = "K1" ]; then
           local printer_choice

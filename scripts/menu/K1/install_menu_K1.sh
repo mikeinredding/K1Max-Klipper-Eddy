@@ -1,7 +1,5 @@
 #!/bin/sh
-
 set -e
-
 function install_menu_ui_k1() {
   top_line
   title '[ INSTALL MENU ]' "${yellow}"
@@ -32,10 +30,10 @@ function install_menu_k1() {
           run "install_eddyduo" "install_menu_ui_k1"
         fi;;
       2)
-	if [ ! -L "$SCREWTILTADJUST_FILE" ]; then
-          error_msg "SCREWTILTADJUST already modified!"
+	if [ -f "$SCREWS_ADJUST_FILE" ]; then
+	  run "modify_screws_tilt_adjust" "install_menu_ui_k1"
         else
-          run "modify_screwtiltadjust" "install_menu_ui_k1"
+	  error_msg "SCREWTILTADJUST already modified!!"
         fi;;
       3)
         if [ -d "$CLEANUP_FILE" ]; then  
