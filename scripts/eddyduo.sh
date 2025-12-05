@@ -62,7 +62,7 @@ function install_eddyduo(){
         	echo -e "Info: Adding Eddy configurations in printer.cfg file..."
         	sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/eddy\.cfg\]' "$PRINTER_CFG"
 	  		sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/fan_control\.cfg\]' "$PRINTER_CFG"
-			sed -i '/\[mcu leveling_mcu\]/,/restart_method: command/s/^/#/' "PRINTER_CFG"
+			sed -i '/\[mcu leveling_mcu\]/,/restart_method: command/s/^/#/' "$PRINTER_CFG"
 	  		sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
 	  		sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
 			sed -i '/position_endstop: 0/s/^/#/' "$PRINTER_CFG"
