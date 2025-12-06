@@ -70,27 +70,40 @@ function install_eddyduo(){
 	  		#sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/config/sensorless.cfg"
 	  		sed -i '/^\[mcu\]/i [force_move]\
-	  		enable_force_move: True' "$PRINTER_CFG"
+enable_force_move: True' "$PRINTER_CFG"
+			echo -e "Info: Adding Eddy configurations in sensorless.cfg file..."
 	  		FILE_PATH="/usr/data/printer_data/config/sensorless.cfg"
 	  		TEMP_FILE=$(mktemp)
 	  		cat <<'EOF' > "$TEMP_FILE"
-	  			[gcode_macro G28]
-					rename_existing: G0028
-					gcode:
-		  			{% set POSITION_X = printer.configfile.settings['stepper_x'].position_max/2 %}
-		  			{% set POSITION_Y = printer.configfile.settings['stepper_y'].position_max/2 %}
-		  			G0028 {rawparams}
-		  			G90 ; Set to Absolute Positioning
-		  			G0 X{POSITION_X} Y{POSITION_Y} F3000 ; Move to bed center
-		  			{% if not rawparams or (rawparams and 'Z' in rawparams) %} #added when combineing eddy configfiles
-    					PROBE #added when combineing eddy configfiles
-    					SET_Z_FROM_PROBE #added when combineing eddy configfiles
-  		  			{% endif %} #added when combineing eddy configfiles
+[gcode_macro G28]
+rename_existing: G0028
+gcode:
+{% set POSITION_X = printer.configfile.settings['stepper_x'].position_max/2 %}
+{% set POSITION_Y = printer.configfile.settings['stepper_y'].position_max/2 %}
+G0028 {rawparams}
+G90 ; Set to Absolute Positioning
+G0 X{POSITION_X} Y{POSITION_Y} F3000 ; Move to bed center
+{% if not rawparams or (rawparams and 'Z' in rawparams) %} #added when combineing eddy configfiles
+PROBE #added when combineing eddy configfiles
+SET_Z_FROM_PROBE #added when combineing eddy configfiles
+{% endif %} #added when combineing eddy configfiles
 EOF
 #DO NOT ADD WHITESPACE OR TABS OR ANYTHING TO THE LINR WITHEOF
 	 		sed -i -e '/\[gcode_macro _IF_HOME_Z\]/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
 	 		rm "$TEMP_FILE"
-
+			echo -e "Info: Adding Eddy configurations in gcode_macro.cfg file..."
+	  		FILE_PATH="/usr/data/printer_data/config/gcode_macro.cfg"
+	  		TEMP_FILE=$(mktemp)
+	  		cat <<'EOF' > "$TEMP_FILE"
+[gcode_macro FAKE_HOME]
+description: Sets the toolhead position to X=150 Y=150 Z=100 for debugging.
+gcode:
+# Caution: This command is for debugging only. Do not use it
+# during normal operations or printing.
+RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
+SET_KINEMATIC_POSITION X=150 Y=150 Z=100
+EOF
+		sed -i -e '/\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2\]/ r '"$TEMP_FILE" "$FILE_PATH"
         fi
 
         echo -e "Info: Restarting Klipper service..."
