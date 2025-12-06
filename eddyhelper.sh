@@ -62,7 +62,8 @@ for script in "${EDDYHELPER_SCRIPT_FOLDER}/scripts/menu/K1/"*.sh; do . "${script
 #  fi
 # }
 
-if [ ! -L /usr/bin/eddyhelper ]; then
+if [ ! -L /usr/bin/eddyhelper ]; then 
+  chmod +x "$EDDYHELPER_SCRIPT_FOLDER"/eddyhelper.sh >/dev/null 2>&1
   ln -sf "$EDDYHELPER_SCRIPT_FOLDER"/eddyhelper.sh /usr/bin/eddyhelper > /dev/null 2>&1
 fi
 rm -rf /root/.cache

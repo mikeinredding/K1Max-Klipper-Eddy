@@ -89,7 +89,7 @@ SET_Z_FROM_PROBE #added when combineing eddy configfiles
 {% endif %} #added when combineing eddy configfiles
 EOF
 #DO NOT ADD WHITESPACE OR TABS OR ANYTHING TO THE LINR WITHEOF
-	 		sed -i -e '/\[gcode_macro _IF_HOME_Z\]/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
+sed -i -e '/\[gcode_macro _IF_HOME_Z\]/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
 	 		rm "$TEMP_FILE"
 			echo -e "Info: Adding Eddy configurations in gcode_macro.cfg file..."
 	  		FILE_PATH="/usr/data/printer_data/config/gcode_macro.cfg"
