@@ -37,12 +37,18 @@ function install_eddyduo(){
 					echo -e "$EDDY_CONFIG"
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
 				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-				 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
+				 	rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
 
                		 	break;;
               			K1MAX|k1max)
                 			echo -e "${white}"
                 			echo -e "Info: Copying files..."
+					echo -e "$EDDYHELPER_SCRIPT_FOLDER"
+					echo -e "$EDDY_K1M_URL"
+					echo -e "$EDDY_FOLDER"
+					echo -e "$EDDY_CONFIG"
+ 					echo -e "$EDDYHS_FILES"
+  					echo -e "$EDDYHS_CONFIG_FOLDER"
 					mkdir -p "$EDDY_FOLDER"
                 			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
 					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
@@ -56,16 +62,21 @@ function install_eddyduo(){
           		echo -e "Shouldn't get this..."
        		fi
         
-        if grep -q "include Eddy-Helper/eddy/eddy.cfg" "$PRINTER_CFG" ; then
+        if grep -q "include eddyhelper/eddy/eddy.cfg" "$PRINTER_CFG" ; then
           echo -e "Info: Eddy configurations are already enabled in printer.cfg file..."
         else
         	echo -e "Info: Adding Eddy configurations in printer.cfg file..."
         	sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/eddy\.cfg\]' "$PRINTER_CFG"
 	  		sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/eddy/fan_control\.cfg\]' "$PRINTER_CFG"
+<<<<<<< HEAD
 			sed -i '/\[mcu leveling_mcu\]/,/restart_method: command/s/^/#/' "$PRINTER_CFG"
 	  		sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
 	  		sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
 			sed -i '/position_endstop: 0/s/^/#/' "$PRINTER_CFG"
+=======
+	  		sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
+	  		sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
+>>>>>>> parent of 7f085be (Update eddyduo.sh)
 	  		sed -i '/\[prtouch_v2\]/,/\[display_status\]/{ /\[display_status\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		#sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/config/sensorless.cfg"
