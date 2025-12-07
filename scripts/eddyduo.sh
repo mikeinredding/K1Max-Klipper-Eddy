@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -x
 
 function eddy_message(){
   top_line
