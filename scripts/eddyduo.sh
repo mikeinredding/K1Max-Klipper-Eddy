@@ -87,6 +87,8 @@ function install_eddyduo(){
     					PROBE #added when combineing eddy configfiles
     					SET_Z_FROM_PROBE #added when combineing eddy configfiles
   		  			{% endif %} #added when combineing eddy configfiles
+
+					[gcode_macro _IF_HOME_Z]
 EOF
 	 		sed -i -e '\|\[gcode_macro _IF_HOME_Z\]|!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
 	 		rm "$TEMP_FILE"
@@ -99,6 +101,8 @@ gcode:
     # during normal operations or printing.
     RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
     SET_KINEMATIC_POSITION X=150 Y=150 Z=100
+
+	[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]
 EOF
 sed -i -e '\|\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]|!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
         fi
