@@ -38,7 +38,7 @@ function install_eddyduo(){
 					echo -e "$EDDY_CONFIG"
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
 				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-				 	rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
+				 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
                		 	break;;
               			K1MAX|k1max)
                 			echo -e "${white}"
@@ -46,7 +46,7 @@ function install_eddyduo(){
 					mkdir -p "$EDDY_FOLDER"
                 			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
 					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-                			rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
+                			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
                 		break;;
               			*)
                 			error_msg "Please select a correct choice!";;
