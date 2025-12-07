@@ -1,4 +1,5 @@
 #!/bin/sh
+
 set -e
 
 function eddy_message(){
@@ -37,8 +38,7 @@ function install_eddyduo(){
 					echo -e "$EDDY_CONFIG"
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
 				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-				 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
-
+				 	rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
                		 	break;;
               			K1MAX|k1max)
                 			echo -e "${white}"
@@ -46,7 +46,7 @@ function install_eddyduo(){
 					mkdir -p "$EDDY_FOLDER"
                 			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
 					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-                			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
+                			rsync --verbose --recursive $EDDY_KLIPPY $KLIPPER_KLIPPY_FOLDER
                 		break;;
               			*)
                 			error_msg "Please select a correct choice!";;
@@ -66,6 +66,7 @@ function install_eddyduo(){
 	  		sed -i '/endstop_pin: tmc2209_stepper_z:virtual_endstop/s/^[ \t]*[^#]/#&/' "$PRINTER_CFG"
 	  		sed -i '/\#endstop_pin: tmc2209_stepper_z:virtual_endstop/a endstop_pin: probe:z_virtual_endstop' "$PRINTER_CFG"
 			sed -i '/position_endstop: 0/s/^/#/' "PRINTER_CFG"
+			sed -i '/\[mcu leveling_mcu\]/,/restart_method: command/s/^/#/' "PRINTER_CFG"
 	  		sed -i '/\[prtouch_v2\]/,/\[display_status\]/{ /\[display_status\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		#sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/config/sensorless.cfg"
@@ -88,9 +89,19 @@ function install_eddyduo(){
   		  			{% endif %} #added when combineing eddy configfiles
 EOF
 #DO NOT ADD WHITESPACE OR TABS OR ANYTHING TO THE LINR WITHEOF
-	 		sed -i -e '/\[gcode_macro _IF_HOME_Z\]/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
+	 		sed -i -e '/\[gcode_macro _IF_HOME_Z]\/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
+			FILE_PATH="/usr/data/printer_data/config/sensorless.cfg"
 	 		rm "$TEMP_FILE"
-
+	  		TEMP_FILE=$(mktemp)
+	  		cat <<'EOF' > "$TEMP_FILE"
+[gcode_macro FAKE_HOME]
+gcode:
+    # Caution: This command is for debugging only. Do not use it
+    # during normal operations or printing.
+    RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
+    SET_KINEMATIC_POSITION X=150 Y=150 Z=100
+EOF
+sed -i -e '/\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]\/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
         fi
 
         echo -e "Info: Restarting Klipper service..."
