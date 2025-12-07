@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -x
+set -e
 
 function eddy_message(){
   top_line
@@ -76,17 +76,17 @@ function install_eddyduo(){
 	  		TEMP_FILE=$(mktemp)
 	  		cat <<'EOF' > "$TEMP_FILE"
 [gcode_macro G28]
- rename_existing: G0028
- gcode:
- {% set POSITION_X = printer.configfile.settings['stepper_x'].position_max/2 %}
- {% set POSITION_Y = printer.configfile.settings['stepper_y'].position_max/2 %}
- G0028 {rawparams}
- G90 ; Set to Absolute Positioning
- G0 X{POSITION_X} Y{POSITION_Y} F3000 ; Move to bed center
- {% if not rawparams or (rawparams and 'Z' in rawparams) %} #added when combineing eddy configfiles
-     PROBE #added when combineing eddy configfiles
-     SET_Z_FROM_PROBE #added when combineing eddy configfiles
- {% endif %} #added when combineing eddy configfiles
+rename_existing: G0028
+gcode:
+ 	{% set POSITION_X = printer.configfile.settings['stepper_x'].position_max/2 %}
+ 	{% set POSITION_Y = printer.configfile.settings['stepper_y'].position_max/2 %}
+ 	G0028 {rawparams}
+ 	G90 ; Set to Absolute Positioning
+ 	G0 X{POSITION_X} Y{POSITION_Y} F3000 ; Move to bed center
+ 	{% if not rawparams or (rawparams and 'Z' in rawparams) %} #added when combineing eddy configfiles
+    	 PROBE #added when combineing eddy configfiles
+     	SET_Z_FROM_PROBE #added when combineing eddy configfiles
+ 	{% endif %} #added when combineing eddy configfiles
 
 [gcode_macro _IF_HOME_Z]
 EOF
@@ -96,13 +96,13 @@ EOF
 	  		TEMP_FILE=$(mktemp)
 	  		cat <<'EOF' > "$TEMP_FILE"
 [gcode_macro FAKE_HOME]
- gcode:
- # Caution: This command is for debugging only. Do not use it
- # during normal operations or printing.
- RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
- SET_KINEMATIC_POSITION X=150 Y=150 Z=100
+gcode:
+	# Caution: This command is for debugging only. Do not use it
+	# during normal operations or printing.
+ 	RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
+ 	SET_KINEMATIC_POSITION X=150 Y=150 Z=100
 
- [gcode_macro LOAD_MATERIAL_CLOSE_FAN2]
+[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]
 EOF
 sed -i -e '\|\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]|!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
         fi
