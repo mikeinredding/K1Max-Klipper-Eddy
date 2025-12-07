@@ -88,10 +88,9 @@ function install_eddyduo(){
     					SET_Z_FROM_PROBE #added when combineing eddy configfiles
   		  			{% endif %} #added when combineing eddy configfiles
 EOF
-#DO NOT ADD WHITESPACE OR TABS OR ANYTHING TO THE LINR WITHEOF
-	 		sed -i -e '/\[gcode_macro _IF_HOME_Z]\/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
-			FILE_PATH="/usr/data/printer_data/config/sensorless.cfg"
+	 		sed -i -e '\|\[gcode_macro _IF_HOME_Z\]|!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
 	 		rm "$TEMP_FILE"
+			FILE_PATH="/usr/data/printer_data/config/gcode_macro.cfg"
 	  		TEMP_FILE=$(mktemp)
 	  		cat <<'EOF' > "$TEMP_FILE"
 [gcode_macro FAKE_HOME]
@@ -101,7 +100,7 @@ gcode:
     RESPOND MSG="!! Setting kinematic position to X=150 Y=150 Z=100 !!"
     SET_KINEMATIC_POSITION X=150 Y=150 Z=100
 EOF
-sed -i -e '/\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]\/!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
+sed -i -e '\|\[gcode_macro LOAD_MATERIAL_CLOSE_FAN2]|!b' -e "r $TEMP_FILE" -e 'd' -e 'G' "$FILE_PATH"
         fi
 
         echo -e "Info: Restarting Klipper service..."
