@@ -1,9 +1,9 @@
 # *** Fork is a work in progress to automate as much as possible the install of files and configuration to allow BTT Eddyduo to work with creality firmware and CFS. I am using the Creality-Helper-Script as a framework to install Below is original info from vsevolod-volkov/K1-Klipper-Eddy big thanks!
 # K1Max-Klipper-Eddy
 
-This project uses Vsevolod-volkov's work taking moduals from SimpleAF(If you dont have a CFS I'd recomend SimpleAF!) and uses https://github.com/Guilouz/Creality-Helper-Script as a framework for the install. Developed using firmware version 2.3.5.34 on a 2024 K1Max. I included an option for the k1 but have not tested at all so who knows whatit will do or if the values are correct.
+This project uses Vsevolod-volkov's work taking moduals from SimpleAF(If you dont have a CFS I'd recomend SimpleAF!) and uses https://github.com/Guilouz/Creality-Helper-Script as a framework for the install. Developed using firmware version 2.3.5.34 on a 2024 K1Max. I included an option for the k1 but have not tested at all so who knows what it will do or if the values are correct.
 
-NOTES: The project is still in develop phaze. The Eddy will work however otherstuff may not like the stock nozzle wip. Remember everything you are doing, you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
+NOTES: The project is still in develop phaze. The Eddy will work however other stuff may not like the stock nozzle wipe. Remember everything you are doing, you are doing at your own risk. Printer physical damage is possible. The author is not responsible for any consequences of using this project.
 
 ## Goals
 The main goal of the project is to allow Creality CFS users to easily switch from PRTouch v2 to BTT Eddy for faster and more precise automated bed leveling.
