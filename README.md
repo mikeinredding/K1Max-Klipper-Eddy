@@ -28,6 +28,8 @@ git clone https://github.com/mikeinredding/K1Max-Klipper-Eddy.git /usr/data/K1Ma
 sh /usr/data/K1Max-Klipper-Eddy/eddyhelper.sh
 ```
 5. Install options from menu 1 will install EddyDuo automatically identifying the correct device and insert it into the config. 2 Adjusts screw tilt support cordinates for the eddy(tested only on k1max) 3 installs a delayed gcode macro that will clear out timelapse videos and print gcode files older than 30 days.
+
+    5.a if you get a klipper error from command prompt on the printer run ls /dev/serial/by-id/* and copy/paste the device that looks like /dev/serial/by-id/usb-Klipper_rp2040_xxxxxxxxx into the config/Eddy-Hellper/eddy/eddy.cfg and restart klipper. I will look into and fix this it should automatically update.
 6. From mainsail console run FAKE_HOME
 7. Move head to bed center
 8. Move bottom of eddy 20mm from bed
