@@ -1,4 +1,4 @@
-# *** Fork is a work in progress to automate as much as possible the install of files and configuration to allow BTT Eddyduo to work with creality firmware and CFS. I am using the Creality-Helper-Script as a framework to install Below is original info from vsevolod-volkov/K1-Klipper-Eddy big thanks!
+# *** Fork is a work in progress to automate as much as possible the install of files and configuration to allow BTT Eddyduo to work with creality firmware and CFS. I am using the Creality-Helper-Script as a framework to install vsevolod-volkov/K1-Klipper-Eddy who port SimpleAF modules to make it work with Crearlity Firmware. Big thanks for all of the work done by Guilouz, Vsevolad-volkov and the people behind SimpleAF!
 # K1Max-Klipper-Eddy
 
 This project uses Vsevolod-volkov's work taking moduals from SimpleAF(If you dont have a CFS I'd recomend SimpleAF!) and uses https://github.com/Guilouz/Creality-Helper-Script as a framework for the install. Developed using firmware version 2.3.5.34 on a 2024 K1Max. I included an option for the k1 but have not tested at all so who knows what it will do or if the values are correct.
