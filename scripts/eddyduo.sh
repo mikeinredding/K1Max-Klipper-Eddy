@@ -68,6 +68,7 @@ function install_eddyduo(){
 			sed -i '/position_endstop: 0/s/^/#/' "$PRINTER_CFG"
 			sed -i '/\[mcu leveling_mcu\]/,/restart_method: command/s/^/#/' "$PRINTER_CFG"
 	  		sed -i '/\[prtouch_v2\]/,/\[display_status\]/{ /\[display_status\]/!s/^/#/ }' "$PRINTER_CFG"
+			sed -i "s|^serial: /dev/serial/by-id/usb-Klipper_rp2040_.*|serial: $EDDY_MCU|" "$EDDY_FOLDER/eddy.cfg"
 	  		#sed -i '/\[prtouch_v2\]/,/\[verify_heater extruder\]/{ /\[verify_heater extruder\]/!s/^/#/ }' "$PRINTER_CFG"
 	  		sed -i 's/\bG28\b/G0028/g' "$PRINTER_DATA_FOLDER/config/sensorless.cfg"
 	  		sed -i '/^\[mcu\]/i [force_move]\
