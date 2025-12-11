@@ -74,7 +74,7 @@ function set_paths() {
   EDDY_KLIPPY="${EHS_FILES}/eddy/klippy"
   EDDY_K1_URL="${EHS_CONFIGS}/btteddyk1.cfg"
   EDDY_K1M_URL="${EHS_CONFIGS}/btteddyk1max.cfg"
-  EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
+  EDDY_MCU=$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
   EDDY_KLIPPER_FOLDER="/usr/share/klipper"
 
  # Cleanup #
@@ -84,9 +84,8 @@ function set_paths() {
 
  # Screws Tilt Adjust Support #
   SCREWS_ADJUST_FILE="${HS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
-  SCREWS_ADJUST_URL="${EHS_FILES}/screws-tilt-adjust/screws_tilt_adjust.cfg"
-  SCREWS_ADJUST_K1_URL="${EHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
-  SCREWS_ADJUST_K1M_URL="${EHS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
+  SCREWS_ADJUST_K1_URL="${EHS_CONFIGS}/screws-tilt-adjust-k1.cfg"
+  SCREWS_ADJUST_K1M_URL="${EHS_CONFIGS}/screws-tilt-adjust-k1max.cfg"
 
 
 }
