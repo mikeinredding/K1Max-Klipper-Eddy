@@ -73,7 +73,7 @@ function set_paths() {
   EDDY_CONFIG="${EDDY_FOLDER}/config"
   EDDY_KLIPPY="${EHS_FILES}/eddy/klippy"
   EDDY_K1_URL="${EHS_CONFIGS}/btteddyk1.cfg"
-  EDDY_K1M_URL="${EHS_CONFIGS}btteddyk1max.cfg"
+  EDDY_K1M_URL="${EHS_CONFIGS}/btteddyk1max.cfg"
   EDDY_MCU==$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
   EDDY_KLIPPER_FOLDER="/usr/share/klipper"
 
