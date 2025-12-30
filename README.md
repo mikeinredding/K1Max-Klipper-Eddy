@@ -11,7 +11,7 @@ The main goal of the project is to allow Creality CFS users to easily switch fro
 ## Prerequisites installation assumes fresh factory reset for install
 1. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
 2. Install options 1,3,4,5,10,11,13(these are the options I have installed additional options may work but some definalty will cause issues option 8 Nozzel Cleaning fan control for example)
-3. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.(This install assumes default mount)
+3. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
 
 ## Installation
 1. Make sure you run a bed mesh for default before proceeding and save config
