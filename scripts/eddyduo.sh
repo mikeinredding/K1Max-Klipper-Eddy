@@ -37,7 +37,6 @@ function install_eddyduo(){
 							mkdir -p "$EDDY_FOLDER" #crash here if folder doesn't exist
                             cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg #fixed source path
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
-        				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
 		         		 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
                	    	 	break;;
               			K1MAX|k1max)
