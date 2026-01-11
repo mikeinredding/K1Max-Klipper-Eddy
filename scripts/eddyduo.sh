@@ -34,18 +34,17 @@ function install_eddyduo(){
               			K1|k1)
                 			echo -e "${white}"
                 			echo -e "Info: Copying file..."
-					echo -e "$EDDY_K1_URL"
-					echo -e "$EDDY_CONFIG"
+							mkdir -p "$EDDY_FOLDER"
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
-				 	cp -f "$EDDY_CONFIG/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
-				 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
+				 			cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
+				 			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
                		 	break;;
               			K1MAX|k1max)
                 			echo -e "${white}"
                 			echo -e "Info: Copying files..."
-					mkdir -p "$EDDY_FOLDER"
+							mkdir -p "$EDDY_FOLDER"
                 			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
-					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
+							cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
                 			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
                 		break;;
               			*)
