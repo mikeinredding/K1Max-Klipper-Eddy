@@ -1,5 +1,4 @@
-# DEV branch working on reverting to original z offset which was using some helper script functionlity. I had switched to the Beta Z offset from BTT but it can be tedious.
-
+# DEV branch This branch does not use the beta z offset uses the original z offset which was using some helper script functionlity. Allows editing of z offset and saves in variable. Cannot be done on the fly while printing. Playing with using original probe to prevent issues and damage to bed caused by nozzle dragging
 
 # *** Fork is a work in progress to automate as much as possible the install of files and configuration to allow BTT Eddyduo to work with creality firmware and CFS. I am using the Creality-Helper-Script as a framework to install vsevolod-volkov/K1-Klipper-Eddy who port SimpleAF modules to make it work with Crearlity Firmware. Big thanks for all of the work done by Guilouz, Vsevolad-volkov and the people behind SimpleAF!
 # K1Max-Klipper-Eddy
