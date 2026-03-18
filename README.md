@@ -8,10 +8,14 @@ NOTES: Using this the Eddy will work however other stuff may not like the stock 
 # Goals
 The main goal of the project is to allow Creality CFS users to easily switch from PRTouch v2 to BTT Eddy for faster and more precise automated bed leveling. The Eddy works but requires lots of recalibration it is not set and forget. I really would suggest SimpleAF with EddyNG and an opensource AMS/CFS/MMU or whatever abberviation works for you but if you are stuck with the CFS you are stuck with the CFS
 
+# Support
+I'm not going to ask for Money, a cup of coffee or send you to an affilate page but If you use and like the script please take a second to view, download and like some of my models at creality print https://www.crealitycloud.com/user-profile/3769968157/models I plan on adding some of my other mods there such as a chamber heater.
+
 # Prerequisites installation assumes fresh factory reset for install
 1. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
-2. Install options 1,3,4,5,10,11,13(these are the options I have installed additional options may work but some definalty will cause issues option 8 Nozzel Cleaning fan control for example)
-3. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
+2. Install the helper script [https://guilouz.github.io/Creality-Helper-Script-Wiki/helper-script/helper-script-installation/]
+3. Install options 1,3,4,5,10,11,13(these are the options I have installed additional options may work but some definalty will cause issues option 8 Nozzel Cleaning fan control for example)
+4. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
 
 # Installation
 1. Make sure you run a bed mesh for default before proceeding and save config **DO not skip will cause an error.**
@@ -65,9 +69,8 @@ G92 E0
 G1 Z1 F600  
 
 ## 2. Unable to save z offset
-   The eddy duo uses z offset differently as its the distance from the probe to the plate so trying to adjust while printng something it will give you an error and there is no option to save. There are two options If you are using the included eddy.cfg file and havent replaced it with something else beta z offset is enabled so if while not printing you use mainsail or fluid to adjust the z offset to what you want then from console run Z_OFFSET_APPLY_PROBE folowed by a SAVE_CONFIG klipper will      restart and when it comes up it will reaply the z offset. 
+   The eddy duo uses z offset differently as its the distance from the probe to the plate so trying to adjust while printng something it will give you an error and there is no option to save. There are two options If you are using the included eddy.cfg file and havent replaced it with something else beta z offset is enabled so if while not printing you use mainsail or fluid to adjust the z offset to what you want then from console run Z_OFFSET_APPLY_PROBE folowed by a SAVE_CONFIG klipper will restart and when it comes up it will reapply the z offset.    If you copied a eddy.cfg from elsewhere or this would work if you dont want to deal with the first option for your printer in the start print gcode you can specify the offset by adding 
+SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to add in your stop and cancel sections set the offset back to 0 by adding SET_GCODE_OFFSET Z=0 
 
-## 3. bed_mesh: Unknown profile [default]
-    See instalation step #1 Make sure you run a bed mesh for default before proceeding and save config.
-    If you did not do this you should be able to cut and paste a bed mesh from another config into your config to proceed. 
-   If you copied a eddy.cfg from elsewhere or this would work if you dont want to deal with the first option for your printer in the start print gcode you can specify the offset by adding SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to add in your stop and cancel sections set the offset back to 0 by adding SET_GCODE_OFFSET Z=0
+## 3. bed_mesh: Unknown profile \[default\]
+   See instalation step #1 Make sure you run a bed mesh for default before proceeding and save config. If you did not do this you should be able to cut and paste a bed mesh from another config into your config to proceed. I've added a file bedmesh.txt here in the root with a bed mesh from one of my saved configs. Its for a K1Max so not sure if it would work of freak out for a K1
