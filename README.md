@@ -14,7 +14,7 @@ The main goal of the project is to allow Creality CFS users to easily switch fro
 3. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
 
 # Installation
-1. Make sure you run a bed mesh for default before proceeding and save config
+1. Make sure you run a bed mesh for default before proceeding and save config **DO not skip will cause an error.**
 2. Log in to K1 with ssh command:https://github.com/mikeinredding/K1Max-Klipper-Eddy/tree/main
 ```bash
 ssh root@ip-address-of-k1
@@ -44,7 +44,12 @@ sh /usr/data/K1Max-Klipper-Eddy/eddyhelper.sh
 15. Run bedmesh and enjoy the rapid scan!
 16. Perform Temperature Compensation Calibration before using following BTTs instructions https://github.com/bigtreetech/Eddy
 
-# Issues and resolutions
+# Issues
+## 1. Have a problem with the install script? Raise an issue and include a klippy.log
+Max file size for github web is 25MB so if you log is bigger than that just compress it into a zip file and it should compress to around 10% the size.
+
+# Common Issues and resolutions
+
 ## 1. Print wont start when sent from creality print have to start from mainsail or print starts but filament isnt loaded  
 Try updaing your start print gcode for your printer below is mine and a user reported the first 3 lines are what fixed it for them  
 G28  
@@ -60,4 +65,9 @@ G92 E0
 G1 Z1 F600  
 
 ## 2. Unable to save z offset
-   The eddy duo uses z offset differently as its the distance from the probe to the plate so trying to adjust while printng something it will give you an error and there is no option to save. There are two options If you are using the included eddy.cfg file and havent replaced it with something else beta z offset is enabled so if while not printing you use mainsail or fluid to adjust the z offset to what you want then from console run Z_OFFSET_APPLY_PROBE folowed by a SAVE_CONFIG klipper will      restart and when it comes up it will reaply the z offset. If you copied a eddy.cfg from elsewhere or this would work if you dont want to deal with the first option for your printer in the start print gcode you can specify the offset by adding SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to add in your stop and cancel sections set the offset back to 0 by adding SET_GCODE_OFFSET Z=0
+   The eddy duo uses z offset differently as its the distance from the probe to the plate so trying to adjust while printng something it will give you an error and there is no option to save. There are two options If you are using the included eddy.cfg file and havent replaced it with something else beta z offset is enabled so if while not printing you use mainsail or fluid to adjust the z offset to what you want then from console run Z_OFFSET_APPLY_PROBE folowed by a SAVE_CONFIG klipper will      restart and when it comes up it will reaply the z offset. 
+
+## 3. bed_mesh: Unknown profile [default]
+    See instalation step #1 Make sure you run a bed mesh for default before proceeding and save config.
+    If you did not do this you should be able to cut and paste a bed mesh from another config into your config to proceed. 
+   If you copied a eddy.cfg from elsewhere or this would work if you dont want to deal with the first option for your printer in the start print gcode you can specify the offset by adding SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to add in your stop and cancel sections set the offset back to 0 by adding SET_GCODE_OFFSET Z=0
