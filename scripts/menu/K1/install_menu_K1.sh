@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+
 function install_menu_ui_k1() {
   top_line
   title '[ INSTALL MENU ]' "${yellow}"

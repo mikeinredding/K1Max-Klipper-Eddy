@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 function remove_menu_ui_k1() {
   top_line
   title '[ REMOVE MENU ]' "${yellow}"
