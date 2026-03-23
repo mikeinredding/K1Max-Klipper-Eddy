@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 function set_paths() {
 
   # Colors #

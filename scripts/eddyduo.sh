@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 function eddy_message(){
   top_line
   title 'EddyDUo' "${yellow}"

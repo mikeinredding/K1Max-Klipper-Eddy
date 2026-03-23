@@ -1,6 +1,5 @@
 #!/bin/sh
 
-set -e
 function cleanup_message(){
   top_line
   title 'Cleanup' "${yellow}"
