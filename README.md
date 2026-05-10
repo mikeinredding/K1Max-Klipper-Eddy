@@ -1,7 +1,7 @@
 # *** This version uses the Beta Z offset from BTT. There is the No Beta Z offset branch that uses Vsevolod-volkov's original files and allows for z offset babystepping but I havent had time to test or validate it for awhile.
 # K1Max-Klipper-Eddy
 
-This project uses Vsevolod-volkov's work taking moduals from SimpleAF(If you dont have a CFS I'd recomend SimpleAF!) and uses https://github.com/Guilouz/Creality-Helper-Script as a framework for the install. Developed using firmware version 2.3.5.34 on a 2024 K1Max. I included an option for the k1 but have not tested at all so who knows what it will do or if the values are correct.
+This project uses Vsevolod-volkov's work taking moduals from SimpleAF(If you dont have a CFS I'd recomend SimpleAF!) and uses https://github.com/Guilouz/Creality-Helper-Script as a framework for the install. Developed using firmware version 2.3.5.34 on a 2024 K1Max and requires 2.3.5.34 does not work with 2.3.5.33. I included an option for the k1 but have not tested at all so who knows what it will do or if the values are correct.
 
 NOTES: Using this the Eddy will work however other stuff may not like the stock nozzle wipe. For nozzle wipe I used https://www.printables.com/model/1023575-prowiper-for-creality-k1-series works pretty well. REMEMBER everything you are doing, you are doing at your own risk. To paraphase Thanos physical damage is inevitable. If you dont destroy at least 1 build plate give it time. I keep a destroyed buildplate and use it anytime I touch anything to do with the Eddy. The author is not responsible for any consequences of using this project.
 
@@ -12,10 +12,11 @@ The main goal of the project is to allow Creality CFS users to easily switch fro
 I'm not going to ask for Money, a cup of coffee or send you to an affilate page but If you use and like the script please take a second to view, download and like some of my models at creality print https://www.crealitycloud.com/user-profile/3769968157/models I plan on adding some of my other mods there such as a chamber heater.
 
 # Prerequisites installation assumes fresh factory reset for install
-1. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
-2. Install the helper script [https://guilouz.github.io/Creality-Helper-Script-Wiki/helper-script/helper-script-installation/]
-3. Install options 1,3,4,5,10,11,13(these are the options I have installed additional options may work but some definalty will cause issues option 8 Nozzel Cleaning fan control for example)
-4. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
+1. Firmware must be 2.3.5.34 I have heard from multiple users and there have been several issues raised on 2.3.5.33 that were resolved by updating to 2.3.5.34
+2. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
+3. Install the helper script [https://guilouz.github.io/Creality-Helper-Script-Wiki/helper-script/helper-script-installation/]
+4. Install options 1,3,4,5,10,11,13(these are the options I have installed additional options may work but some definalty will cause issues option 8 Nozzel Cleaning fan control for example)
+5. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
 
 # Installation
 1. Make sure you run a bed mesh for default before proceeding and save config **DO not skip will cause an error.**
