@@ -75,3 +75,42 @@ SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to
 
 ## 3. bed_mesh: Unknown profile \[default\]
    See instalation step #1 Make sure you run a bed mesh for default before proceeding and save config. If you did not do this you should be able to cut and paste a bed mesh from another config into your config to proceed. I've added a file bedmesh.txt here in the root with a bed mesh from one of my saved configs. Its for a K1Max so not sure if it would work of freak out for a K1
+
+## 4. Print completes but reports as failed
+  Molotiilkin1 reported prints finish but show as failed in klipper with an error reported in the klipper console !! Unknown gcode_macro variable 'prepare'. It occurs when the printer is unloading which may be why I didnt notice it as I modified my gcode to not unload as most of the time I print with the same color so saved me time. Anyways if its occuring for you and you care to fix it. Edit the END_PRINT_NO_M84 macro in the gcode_macro.cfg and either comment out or remove the PRINT_PREPARE_CLEAR
+```py
+[gcode_macro END_PRINT_NO_M84]
+gcode:
+  BOX_END
+  BOX_END_PRINT
+  Qmode_exit
+  EXCLUDE_OBJECT_RESET
+  PRINT_PREPARE_CLEAR # <- comment it or delete
+  M220 S100
+  SET_VELOCITY_LIMIT ACCEL=5000 ACCEL_TO_DECEL=2500
+  TURN_OFF_HEATERS
+  M107 P1
+  M107 P2
+  END_PRINT_POINT
+  WAIT_TEMP_START
+  BOX_GET_FIVE_WAY_STATE
+```
+
+Should look like this or delete the line
+```py
+[gcode_macro END_PRINT_NO_M84]
+gcode:
+  BOX_END
+  BOX_END_PRINT
+  Qmode_exit
+  EXCLUDE_OBJECT_RESET
+  #PRINT_PREPARE_CLEAR 
+  M220 S100
+  SET_VELOCITY_LIMIT ACCEL=5000 ACCEL_TO_DECEL=2500
+  TURN_OFF_HEATERS
+  M107 P1
+  M107 P2
+  END_PRINT_POINT
+  WAIT_TEMP_START
+  BOX_GET_FIVE_WAY_STATE
+```
