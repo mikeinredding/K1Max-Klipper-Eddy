@@ -50,10 +50,13 @@ sh /usr/data/K1Max-Klipper-Eddy/eddyhelper.sh
 16. Perform Temperature Compensation Calibration before using following BTTs instructions https://github.com/bigtreetech/Eddy
 
 # Issues
-## 1. Have a problem with the install script? Raise an issue and include a klippy.log
-Max file size for github web is 25MB so if you log is bigger than that just compress it into a zip file and it should compress to around 10% the size.
+## 1. Have a problem with the install script? Verify you are running 2.3.4.34 firmware, and if so raise an issue and include a klippy.log
+Not joking about the 2.3.4.34 firmwre thats the version of firmware I used when making this and it worked. I've never used 2.3.4.33 so I have not tested it. Multiple people have had issues with .33 that went away as soon as they upgraded to .34. If you are running 2.3.4.34 rais an issue and include a klippy log. Max file size for github web is 25MB so if you log is bigger than that just compress it into a zip file and it should compress to around 10% the size.
 
 # Common Issues and resolutions
+
+## 0. Script installed but something not working right?
+First thing verify your firmware if you are running 2.3.5.33 upgrade to 2.3.5.34 and try again. 
 
 ## 1. Print wont start when sent from creality print have to start from mainsail or print starts but filament isnt loaded  
 Try updaing your start print gcode for your printer below is mine and a user reported the first 3 lines are what fixed it for them  
