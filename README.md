@@ -1,3 +1,5 @@
+# *** This branch is under development will incorporaate all of the Originall Creality Helper Script so you dont have to install it then the eddy helper.
+
 # *** This version uses the Beta Z offset from BTT. There is the No Beta Z offset branch that uses Vsevolod-volkov's original files and allows for z offset babystepping but I havent had time to test or validate it for awhile.
 # K1Max-Klipper-Eddy
 
