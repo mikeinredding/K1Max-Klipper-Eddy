@@ -1,24 +1,40 @@
 #!/bin/sh
 
+set -e
+
 function screws_tilt_adjust_message(){
   top_line
   title 'Screws Tilt Adjust Support' "${yellow}"
   inner_line
   hr
-  echo -e " │ ${cyan}Modifys Creality Helper Script Screws Tilt Adjust for Eddy Duo ${white}│"
-  echo -e " │ ${cyan}functionality.                                                 ${white}│"
+  echo -e " │ ${cyan}It allows to add support for Screws Tilt Adjust              ${white}│"
+  echo -e " │ ${cyan}functionality.                                               ${white}│"
   hr
   bottom_line
 }
 
-function modify_screws_tilt_adjust(){
+function install_screws_tilt_adjust(){
   screws_tilt_adjust_message
   local yn
   while true; do
-    install_msg "Modify Screws Tilt Adjust Support" yn
+    install_msg "Screws Tilt Adjust Support" yn
     case "${yn}" in
       Y|y)
         echo -e "${white}"
+        if [ -f "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg ]; then
+          rm -f "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
+        fi
+        if [ ! -d "$HS_CONFIG_FOLDER" ]; then
+          mkdir -p "$HS_CONFIG_FOLDER"
+        fi
+        echo -e "Info: Backing up original file..."
+        if [ ! -d "$HS_BACKUP_FOLDER"/screws-tilt-adjust ]; then
+          mkdir -p "$HS_BACKUP_FOLDER"/screws-tilt-adjust
+        fi
+        if [ -f "$KLIPPER_EXTRAS_FOLDER"/screws_tilt_adjust.py ]; then
+          mv "$KLIPPER_EXTRAS_FOLDER"/screws_tilt_adjust.py "$HS_BACKUP_FOLDER"/screws-tilt-adjust
+          mv "$KLIPPER_EXTRAS_FOLDER"/screws_tilt_adjust.pyc "$HS_BACKUP_FOLDER"/screws-tilt-adjust
+        fi
         echo
         if [ "$model" = "K1" ]; then
           local printer_choice
@@ -27,27 +43,31 @@ function modify_screws_tilt_adjust(){
             case "${printer_choice}" in
               K1|k1)
                 echo -e "${white}"
-                echo -e "Info: Copying file..."
-                cp -f "$SCREWS_ADJUST_K1_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
-
+                echo -e "Info: Linking files..."
+                ln -sf "$SCREWS_ADJUST_K1_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
                 break;;
               K1MAX|k1max)
                 echo -e "${white}"
                 echo -e "Info: Linking files..."
-                cp -f "$SCREWS_ADJUST_K1M_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
-
+                ln -sf "$SCREWS_ADJUST_K1M_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
                 break;;
               *)
                 error_msg "Please select a correct choice!";;
             esac
           done
+        elif [ "$model" = "E5M" ]; then
+          echo -e "Info: Linking files..."
+          ln -sf "$SCREWS_ADJUST_E5M_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
         else
-          echo -e "Shouldn't get this..."
+          echo -e "Info: Linking files..."
+          ln -sf "$SCREWS_ADJUST_3KE_URL" "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
         fi
+        ln -sf "$SCREWS_ADJUST_URL" "$KLIPPER_EXTRAS_FOLDER"/screws_tilt_adjust.py
         if grep -q "include Helper-Script/screws-tilt-adjust" "$PRINTER_CFG" ; then
           echo -e "Info: Screws Tilt Adjust Support configurations are already enabled in printer.cfg file..."
         else
-          echo -e "Screws Tilt Adjust needed to be installed by the helper script for this to work properly!"
+          echo -e "Info: Adding Screws Tilt Adjust Support configurations in printer.cfg file..."
+          sed -i '/\[include printer_params\.cfg\]/a \[include Helper-Script/screws-tilt-adjust\.cfg\]' "$PRINTER_CFG"
         fi
         echo -e "Info: Restarting Klipper service..."
         restart_klipper
@@ -55,6 +75,47 @@ function modify_screws_tilt_adjust(){
         return;;
       N|n)
         error_msg "Installation canceled!"
+        return;;
+      *)
+        error_msg "Please select a correct choice!";;
+    esac
+  done
+}
+
+function remove_screws_tilt_adjust(){
+  screws_tilt_adjust_message
+  local yn
+  while true; do
+    remove_msg "Screws Tilt Adjust Support" yn
+    case "${yn}" in
+      Y|y)
+        echo -e "${white}"
+        echo -e "Info: Restoring files..."
+        if [ -f "$HS_BACKUP_FOLDER"/screws-tilt-adjust/screws_tilt_adjust.py ]; then
+          mv "$HS_BACKUP_FOLDER"/screws-tilt-adjust/screws_tilt_adjust.py "$KLIPPER_EXTRAS_FOLDER"
+          mv "$HS_BACKUP_FOLDER"/screws-tilt-adjust/screws_tilt_adjust.pyc "$KLIPPER_EXTRAS_FOLDER"
+          rm -rf "$HS_BACKUP_FOLDER"/screws-tilt-adjust
+        fi
+        if [ ! -n "$(ls -A "$HS_BACKUP_FOLDER")" ]; then
+          rm -rf "$HS_BACKUP_FOLDER"
+        fi
+        echo -e "Info: Removing file..."
+        rm -f "$HS_CONFIG_FOLDER"/screws-tilt-adjust.cfg
+        if grep -q "include Helper-Script/screws-tilt-adjust" "$PRINTER_CFG" ; then
+          echo -e "Info: Removing Screws Tilt Adjust Support configurations in printer.cfg file..."
+          sed -i '/include Helper-Script\/screws-tilt-adjust\.cfg/d' "$PRINTER_CFG"
+        else
+          echo -e "Info: Screws Tilt Adjust Support configurations are already removed in printer.cfg file..."
+        fi
+        if [ ! -n "$(ls -A "$HS_CONFIG_FOLDER")" ]; then
+          rm -rf "$HS_CONFIG_FOLDER"
+        fi
+        echo -e "Info: Restarting Klipper service..."
+        restart_klipper
+        ok_msg "Screws Tilt Adjust Support has been removed successfully!"
+        return;;
+      N|n)
+        error_msg "Deletion canceled!"
         return;;
       *)
         error_msg "Please select a correct choice!";;

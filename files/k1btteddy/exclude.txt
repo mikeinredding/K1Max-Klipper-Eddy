@@ -1,0 +1,3 @@
+.git/
+.git*
+.DS_Store

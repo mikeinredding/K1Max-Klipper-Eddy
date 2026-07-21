@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 function set_paths() {
 
   # Colors #
@@ -12,21 +14,16 @@ function set_paths() {
   red=`echo -en "\033[01;31m"`
 
   # System #
+  CURL="${HELPER_SCRIPT_FOLDER}/files/fixes/curl"
   INITD_FOLDER="/etc/init.d"
   USR_DATA="/usr/data"
   USR_SHARE="/usr/share"
   PRINTER_DATA_FOLDER="$USR_DATA/printer_data"
 
   # Helper Script #
-  HELPER_SCRIPT_FOLDER="$(dirname "$(readlink -f /usr/bin/helper)")"
   HS_FILES="${HELPER_SCRIPT_FOLDER}/files"
   HS_CONFIG_FOLDER="$PRINTER_DATA_FOLDER/config/Helper-Script"
   HS_BACKUP_FOLDER="$USR_DATA/helper-script-backup"
-
-  # EDDYHelper Script #
-  EHS_FILES="${EDDYHELPER_SCRIPT_FOLDER}/files"
-  EHS_CONFIGS="${EDDYHELPER_SCRIPT_FOLDER}/config"
-  EHS_PRINTER_DATA_FOLDER="$PRINTER_DATA_FOLDER/config/Eddy-Helper"
   
   # Configuration Files #
   MOONRAKER_CFG="${PRINTER_DATA_FOLDER}/config/moonraker.conf"
@@ -42,9 +39,19 @@ function set_paths() {
   
   # Nginx #
   NGINX_FOLDER="${USR_DATA}/nginx"
-  NGINX_URL="${BTTEHS_FILES}/moonraker/nginx.tar.gz"
-  NGINX_SERVICE_URL="${BTTEHS_FILES}/services/S50nginx"
-  NGINX_CONF_URL="${BTTEHS_FILES}/moonraker/nginx.conf"
+  NGINX_URL="${HS_FILES}/moonraker/nginx.tar.gz"
+  NGINX_SERVICE_URL="${HS_FILES}/services/S50nginx"
+  NGINX_CONF_URL="${HS_FILES}/moonraker/nginx.conf"
+  
+  # Supervisor Lite #
+  SUPERVISOR_FILE="/usr/bin/supervisorctl"
+  SUPERVISOR_URL="${HS_FILES}/fixes/supervisorctl"
+
+  # Host Controls Support #
+  SYSTEMCTL_FILE="/usr/bin/systemctl"
+  SYSTEMCTL_URL="${HS_FILES}/fixes/systemctl"
+  SUDO_FILE="/usr/bin/sudo"
+  SUDO_URL="${HS_FILES}/fixes/sudo"
   
   # Klipper #
   KLIPPER_EXTRAS_FOLDER="/usr/share/klipper/klippy/extras"
@@ -62,29 +69,126 @@ function set_paths() {
   MAINSAIL_FOLDER="${USR_DATA}/mainsail"
   MAINSAIL_URL="https://github.com/mainsail-crew/mainsail/releases/latest/download/mainsail.zip"
   
+  # Entware #
+  ENTWARE_FILE="/opt/bin/opkg"
+  ENTWARE_URL="${HS_FILES}/entware/generic.sh"
+
   # Klipper Gcode Shell Command #
   KLIPPER_SHELL_FILE="${KLIPPER_EXTRAS_FOLDER}/gcode_shell_command.py"
   KLIPPER_SHELL_URL="${HS_FILES}/gcode-shell-command/gcode_shell_command.py"
   
-  # Eddy #
-  EDDY_FOLDER="${EHS_PRINTER_DATA_FOLDER}/eddy"
-  EDDY_CONFIG="${EDDY_FOLDER}/config"
-  EDDY_KLIPPY="${EHS_FILES}/eddy/klippy"
-  EDDY_K1_URL="${EHS_CONFIGS}/btteddyk1.cfg"
-  EDDY_K1M_URL="${EHS_CONFIGS}/btteddyk1max.cfg"
-  EDDY_MCU=$(ls /dev/serial/by-id/* | grep "Klipper_rp204")
-  EDDY_KLIPPER_FOLDER="/usr/share/klipper"
-
- # Cleanup #
-  CLEANUP_FILE="${EHS_CONFIGS}/cleanup.cfg"
-  CLEANUP_FOLDER="${EHS_PRINTER_DATA_FOLDER}/cleanup"
-  CLEANUP_CONFIG_FILE="${CLEANUP_FOLDER}/cleanup.cfg"
-
- # Screws Tilt Adjust Support #
+  # Klipper Adaptive Meshing & Purging #
+  KAMP_FOLDER="${HS_CONFIG_FOLDER}/KAMP"
+  KAMP_URL="${HS_FILES}/kamp"
+  VIRTUAL_PINS_FILE="${KLIPPER_EXTRAS_FOLDER}/virtual_pins.py"
+  VIRTUAL_PINS_URL="${HS_FILES}/klipper-virtual-pins/virtual_pins.py"
+  
+  # Buzzer Support #
+  BUZZER_FILE="${HS_CONFIG_FOLDER}/buzzer-support.cfg"
+  BUZZER_URL="${HS_FILES}/buzzer-support/buzzer-support.cfg"
+  
+  # Nozzle Cleaning Fan Control #
+  NOZZLE_CLEANING_FOLDER="${KLIPPER_EXTRAS_FOLDER}/prtouch_v2_fan"
+  NOZZLE_CLEANING_URL1="${HS_FILES}/nozzle-cleaning-fan-control/__init__.py"
+  NOZZLE_CLEANING_URL2="${HS_FILES}/nozzle-cleaning-fan-control/prtouch_v2_fan.pyc"
+  NOZZLE_CLEANING_URL3="${HS_FILES}/nozzle-cleaning-fan-control/nozzle-cleaning-fan-control.cfg"
+  
+  # Fans Control Macros #
+  FAN_CONTROLS_FILE="${HS_CONFIG_FOLDER}/fans-control.cfg"
+  FAN_CONTROLS_URL="${HS_FILES}/macros/fans-control.cfg"
+  
+  # Improved Shapers Calibrations #
+  IMP_SHAPERS_FOLDER="${HS_CONFIG_FOLDER}/improved-shapers"
+  IMP_SHAPERS_URL="${HS_FILES}/improved-shapers"
+  
+  # Useful Macros #
+  USEFUL_MACROS_FILE="${HS_CONFIG_FOLDER}/useful-macros.cfg"
+  USEFUL_MACROS_URL="${HS_FILES}/macros/useful-macros.cfg"
+  USEFUL_MACROS_3V3_URL="${HS_FILES}/macros/useful-macros-3v3.cfg"
+  
+  # Save Z-Offset Macros #
+  SAVE_ZOFFSET_FILE="${HS_CONFIG_FOLDER}/save-zoffset.cfg"
+  SAVE_ZOFFSET_URL="${HS_FILES}/macros/save-zoffset.cfg"
+  
+  # Screws Tilt Adjust Support #
   SCREWS_ADJUST_FILE="${HS_CONFIG_FOLDER}/screws-tilt-adjust.cfg"
-  SCREWS_ADJUST_K1_URL="${EHS_CONFIGS}/screws-tilt-adjust-k1.cfg"
-  SCREWS_ADJUST_K1M_URL="${EHS_CONFIGS}/screws-tilt-adjust-k1max.cfg"
+  SCREWS_ADJUST_URL="${HS_FILES}/screws-tilt-adjust/screws_tilt_adjust.py"
+  SCREWS_ADJUST_K1_URL="${HS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1.cfg"
+  SCREWS_ADJUST_K1M_URL="${HS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1max.cfg"
+  SCREWS_ADJUST_3KE_URL="${HS_FILES}/screws-tilt-adjust/screws-tilt-adjust-3ke.cfg"
+  SCREWS_ADJUST_E5M_URL="${HS_FILES}/screws-tilt-adjust/screws-tilt-adjust-e5m.cfg"
+  
+  # M600 Support #
+  M600_SUPPORT_FILE="${HS_CONFIG_FOLDER}/M600-support.cfg"
+  M600_SUPPORT_URL="${HS_FILES}/macros/M600-support.cfg"
+  M600_SUPPORT_3V3_URL="${HS_FILES}/macros/M600-support-3v3.cfg"
+  M600_SUPPORT_3KE_URL="${HS_FILES}/macros/M600-support-ke.cfg"
+  
+  # Git Backup #
+  GIT_BACKUP_INSTALLER="${HS_FILES}/git-backup/git-backup.sh"
+  GIT_BACKUP_FILE="${HS_CONFIG_FOLDER}/git-backup.cfg"
+  GIT_BACKUP_URL="${HS_FILES}/git-backup/git-backup.cfg"
 
+  #K1BttEddy #
+  $K1BTTEDDY_FOLDER=
+  
+  # Moonraker Timelapse #
+  TIMELAPSE_FILE="${USR_DATA}/moonraker/moonraker/moonraker/components/timelapse.py"
+  TIMELAPSE_URL1="${HS_FILES}/moonraker-timelapse/timelapse.py"
+  TIMELAPSE_URL2="${HS_FILES}/moonraker-timelapse/timelapse.cfg"
+  
+  # Camera Settings Control #
+  CAMERA_SETTINGS_FILE="${HS_CONFIG_FOLDER}/camera-settings.cfg"
+  CAMERA_SETTINGS_URL="${HS_FILES}/camera-settings/camera-settings.cfg"
+  CAMERA_SETTINGS_NEBULA_URL="${HS_FILES}/camera-settings/camera-settings-nebula.cfg"
+  
+  # USB Camera Support
+  USB_CAMERA_FILE="${INITD_FOLDER}/S50usb_camera"
+  USB_CAMERA_SINGLE_URL="${HS_FILES}/services/S50usb_camera-single"
+  USB_CAMERA_DUAL_URL="${HS_FILES}/services/S50usb_camera-dual"
+  
+  # OctoEverywhere #
+  OCTOEVERYWHERE_FOLDER="${USR_DATA}/octoeverywhere"
+  OCTOEVERYWHERE_URL="https://github.com/QuinnDamerell/OctoPrint-OctoEverywhere.git"
+  
+  # Moonraker Obico #
+  MOONRAKER_OBICO_FOLDER="${USR_DATA}/moonraker-obico"
+  MOONRAKER_OBICO_URL="https://github.com/TheSpaghettiDetective/moonraker-obico.git"
+  
+  # GuppyFLO #
+  GUPPYFLO_FOLDER="${USR_DATA}/guppyflo"
+  GUPPYFLO_URL="https://github.com/ballaswag/guppyflo/releases/latest/download/guppyflo_mipsle.zip"
+  
+  # Mobileraker Companion #
+  MOBILERAKER_COMPANION_FOLDER="${USR_DATA}/mobileraker_companion"
+  MOBILERAKER_COMPANION_URL="https://github.com/Clon1998/mobileraker_companion.git"
+  
+  # OctoApp Companion #
+  OCTOAPP_COMPANION_FOLDER="${USR_DATA}/octoapp"
+  OCTOAPP_COMPANION_URL="https://github.com/crysxd/OctoApp-Plugin.git"
+
+  # Custom Boot Display #
+  BOOT_DISPLAY_FOLDER="/etc/boot-display"
+  BOOT_DISPLAY_FILE="${BOOT_DISPLAY_FOLDER}/part0/pic_100.jpg"
+  BOOT_DISPLAY_K1_URL="${HS_FILES}/boot-display/k1_boot_display.tar.gz"
+  BOOT_DISPLAY_K1M_URL="${HS_FILES}/boot-display/k1max_boot_display.tar.gz"
+  BOOT_DISPLAY_STOCK_URL="${HS_FILES}/boot-display/stock_boot_display.tar.gz"
+  
+  # Creality Web Interface #
+  CREALITY_WEB_FILE="/usr/bin/web-server"
+  
+  # Guppy Screen #
+  GUPPY_SCREEN_FOLDER="${USR_DATA}/guppyscreen"
+  GUPPY_SCREEN_URL1="${HS_FILES}/guppy-screen/guppy_update.cfg"
+  GUPPY_SCREEN_URL2="${HS_FILES}/guppy-screen/guppy-update.sh"
+  GUPPY_SCREEN_3V3_URL="${HS_FILES}/guppy-screen/guppy_update-3v3.cfg"
+  GUPPY_SCREEN_CONFIG_3V3_URL="${HS_FILES}/guppy-screen/guppyconfig-3v3.json"
+  
+  # Creality Dynamic Logos for Fluidd #
+  FLUIDD_LOGO_FILE="${USR_DATA}/fluidd/logo_creality_v2.svg"
+  FLUIDD_LOGO_URL1="${HS_FILES}/fluidd-logos/logo_creality_v1.svg"
+  FLUIDD_LOGO_URL2="${HS_FILES}/fluidd-logos/logo_creality_v2.svg"
+  FLUIDD_LOGO_URL3="${HS_FILES}/fluidd-logos/config.json"
 
 }
 
