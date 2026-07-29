@@ -57,10 +57,11 @@ function script_title() {
 
 function main_menu_ui() {
   top_line
-  title "• HELPER SCRIPT FOR CREALITY $(script_title) •" "${blue}"
+  title " Based on • HELPER SCRIPT FOR CREALITY $(script_title) •" "${blue}"
   title "Copyright © Cyril Guislain (Guilouz)" "${white}"
+  title "modifications done by MikeinRedding " "${white}"
   inner_line
-  title "/!\\ ONLY USE THIS SCRIPT WITH LATEST FIRMWARE VERSION /!\\" "${darkred}"
+  title "/!\\ ONLY USE THIS SCRIPT with CFS firmware 2.3.5.34 /!\\" "${darkred}"
   inner_line
   hr
   main_menu_option '1' '[Install]' 'Menu'
@@ -88,41 +89,41 @@ function main_menu() {
     case "${main_menu_opt}" in
       1) clear
          if [ "$model" = "K1" ]; then
-           install_menu_k1
-         elif [ "$model" = "3V3" ]; then
-           install_menu_3v3
-         elif [ "$model" = "3KE" ]; then
-           install_menu_3ke
-         elif [ "$model" = "E5M" ]; then
-           install_menu_e5m
+           install_menu_k1 #\scripts\menu\install_menuK1.sh
+        #  elif [ "$model" = "3V3" ]; then
+        #    install_menu_3v3
+        #  elif [ "$model" = "3KE" ]; then
+        #    install_menu_3ke
+        #  elif [ "$model" = "E5M" ]; then
+        #    install_menu_e5m
          else
-           install_menu_10se
+           install_menu_notsupported
          fi
          break;;
       2) clear
          if [ "$model" = "K1" ]; then
-           remove_menu_k1
-         elif [ "$model" = "3V3" ]; then
-           remove_menu_3v3
-         elif [ "$model" = "3KE" ]; then
-           remove_menu_3ke
-         elif [ "$model" = "E5M" ]; then
-           remove_menu_e5m
+           remove_menu_k1 #\scripts\menu\remove_menuK1.sh
+        #  elif [ "$model" = "3V3" ]; then
+        #    remove_menu_3v3
+        #  elif [ "$model" = "3KE" ]; then
+        #    remove_menu_3ke
+        #  elif [ "$model" = "E5M" ]; then
+        #    remove_menu_e5m
          else
-           remove_menu_10se
+           remove_menu_notsupported
          fi
          break;;
       3) clear
          if [ "$model" = "K1" ]; then
-           customize_menu_k1
-         elif [ "$model" = "3V3" ]; then
-           customize_menu_3v3
-         elif [ "$model" = "3KE" ]; then
-           customize_menu_3ke
-         elif [ "$model" = "E5M" ]; then
-           customize_menu_e5m
+           customize_menu_k1 #\scripts\menu\customize_menuK1.sh
+        #  elif [ "$model" = "3V3" ]; then
+        #    customize_menu_3v3
+        #  elif [ "$model" = "3KE" ]; then
+        #    customize_menu_3ke
+        #  elif [ "$model" = "E5M" ]; then
+        #    customize_menu_e5m
          else
-           customize_menu_10se
+           customize_menu_notsupported
          fi
          break;;
       4) clear
@@ -130,28 +131,28 @@ function main_menu() {
          break;;
       5) clear
          if [ "$model" = "K1" ]; then
-           tools_menu_k1
-         elif [ "$model" = "3V3" ]; then
-           tools_menu_3v3
-         elif [ "$model" = "3KE" ]; then
-           tools_menu_3ke
-         elif [ "$model" = "E5M" ]; then
-           tools_menu_e5m
+           tools_menu_k1 #\scripts\menu\tools_menuK1.sh
+        #  elif [ "$model" = "3V3" ]; then
+        #    tools_menu_3v3
+        #  elif [ "$model" = "3KE" ]; then
+        #    tools_menu_3ke
+        #  elif [ "$model" = "E5M" ]; then
+        #    tools_menu_e5m
          else
-           tools_menu_10se
+           tools_menu_notsupported
          fi
          main_ui;;
       6) clear
          if [ "$model" = "K1" ]; then
-           info_menu_k1
-         elif [ "$model" = "3V3" ]; then
-           info_menu_3v3
-         elif [ "$model" = "3KE" ]; then
-           info_menu_3ke
-         elif [ "$model" = "E5M" ]; then
-           info_menu_e5m
+           info_menu_k1 #\scripts\menu\info_menuK1.sh
+        #  elif [ "$model" = "3V3" ]; then
+        #    info_menu_3v3
+        #  elif [ "$model" = "3KE" ]; then
+        #    info_menu_3ke
+        #  elif [ "$model" = "E5M" ]; then
+        #    info_menu_e5m
          else
-           info_menu_10se
+           info_menu_notsupported
          fi
          break;;
       7) clear
