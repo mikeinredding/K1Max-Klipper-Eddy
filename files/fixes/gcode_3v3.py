@@ -447,6 +447,12 @@ class GCodeDispatch:
             if cmd in self.gcode_help:
                 cmdhelp.append("%-10s: %s" % (cmd, self.gcode_help[cmd]))
         gcmd.respond_info("\n".join(cmdhelp), log=False)
+    def get_status(self, eventtime=None):
+        commands = {cmd: {} for cmd in self.gcode_handlers}
+        for cmd, help_txt in getattr(self, 'gcode_help', {}).items():
+            if cmd in commands:
+                commands[cmd]['help'] = help_txt
+        return {'commands': commands}
 
 # Support reading gcode from a pseudo-tty interface
 class GCodeIO:

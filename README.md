@@ -72,9 +72,19 @@ M83
 G92 E0  
 G1 Z1 F600  
 
-## 2. Unable to save z offset
-   The eddy duo uses z offset differently as its the distance from the probe to the plate so trying to adjust while printng something it will give you an error and there is no option to save. There are two options If you are using the included eddy.cfg file and havent replaced it with something else beta z offset is enabled so if while not printing you use mainsail or fluid to adjust the z offset to what you want then from console run Z_OFFSET_APPLY_PROBE folowed by a SAVE_CONFIG klipper will restart and when it comes up it will reapply the z offset.    If you copied a eddy.cfg from elsewhere or this would work if you dont want to deal with the first option for your printer in the start print gcode you can specify the offset by adding 
-SET_GCODE_OFFSET Z=-0.6 for example to set it to negative .6mm. You also need to add in your stop and cancel sections set the offset back to 0 by adding SET_GCODE_OFFSET Z=0 
+## 2. Z-Offset Babystepping & Saving (Resolved)
+   Previously, adjusting the Z-offset during printing or idle caused an internal error (`AttributeError: 'PrinterEddyProbe' object has no attribute 'z_offset'` or `key60`), and the Mainsail/Fluidd Save button was missing.
+   
+   **These issues are now resolved in this repository:**
+   - **No more crashes:** `PrinterEddyProbe` now provides the `z_offset` property and attribute required by Klipper's offset dispatch and CFS box handlers.
+   - **Live UI Save Button:** Extended G-Code commands (`Z_OFFSET_APPLY_PROBE`) are now reported through `gcode.get_status`, so the native Save button in Mainsail and Fluidd appears automatically when babystepping! Clicking Save stores the runtime offset via `save_variables` (`variables.cfg`) without needing a full Klipper restart or manual file editing.
+   - **Persistent Base Offset & Paper Test:**
+     - If you want to permanently merge your current babystep offset into the sensor base height (so your live offset returns to `0.000`), simply run `EDDY_APPLY_OFFSET_TO_BASE`.
+     - To calibrate the nozzle offset using a piece of paper without needing to rerun full frequency mapping:
+       1. Run `EDDY_PAPER_TEST` (homes, probes bed center, moves nozzle to Z=0.2mm).
+       2. Adjust nozzle height using the UI babystep controls until the paper has slight friction.
+       3. Run `EDDY_SAVE_NOZZLE` (merges offset into `eddy_base_offset`, zeroes live offset, and lifts the toolhead).
+
 
 ## 3. bed_mesh: Unknown profile \[default\]
    See instalation step #1 Make sure you run a bed mesh for default before proceeding and save config. If you did not do this you should be able to cut and paste a bed mesh from another config into your config to proceed. I've added a file bedmesh.txt here in the root with a bed mesh from one of my saved configs. Its for a K1Max so not sure if it would work of freak out for a K1
