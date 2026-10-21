@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 function top_line() {
   echo -e "${white}"
   echo -e " ┌────────────────────────────────────────────────────────────────┐"
@@ -196,4 +198,10 @@ function restart_klipper() {
 
 function disabled_feature() {
   error_msg "Due to some compatibility issues, this feature is temporarily disabled!"
+}
+function text_line() {
+  # Left-aligned line of free text inside the menu box, padded to box width
+  local text="$1"
+  local color="${2:-$cyan}"
+  printf " │ ${color}%-63s${white}│\n" "$text"
 }
