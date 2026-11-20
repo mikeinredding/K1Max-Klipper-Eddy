@@ -47,7 +47,17 @@ Use a **spring steel** build plate on the magnetic sheet. Don't use a plate
 with embedded magnets or a non-steel flex plate: the Eddy reads metal, and the
 nozzle can dig into those plates.
 
-## 4. Connect it
+## 4. Flash the firmware
+
+Flash the Eddy with the firmware in this repo. Either:
+
+- **On a Windows PC before mounting it** (easiest for a new Eddy): see
+  [Flashing from a Windows PC](../firmware/README.md#flashing-from-a-windows-pc-before-mounting-it).
+- **From the printer** once it's connected: **[BTT Eddy] Menu, option 4**, or
+  the steps in [firmware/README.md](../firmware/README.md). If the Eddy
+  already runs Klipper (most do from the factory) no BOOT button is needed.
+
+## 5. Connect it
 
 - **Eddy Duo:** switch it to **USB mode** first. This project only supports
   the USB connection.
@@ -56,13 +66,6 @@ nozzle can dig into those plates.
 - Only after that, if you want a tidier install, wire it directly to the
   mainboard, or make a cable for the lidar port (K1 Max only). Keep the
   original cable intact; you may need it again.
-
-## 5. Flash the firmware
-
-Flash the Eddy with the firmware in this repo from the printer: use
-**[BTT Eddy] Menu, option 4**, or the steps in
-[firmware/README.md](../firmware/README.md). If the Eddy already runs
-Klipper (most do from the factory) no BOOT button is needed.
 
 ## 6. Calibration tips
 

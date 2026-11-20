@@ -13,6 +13,44 @@ developed and tested with.
 | Includes | LDC1612 (`ldc1612` and `ldc1612_ng`) probe support |
 | SHA-256 | `511f1e2dbf366bcb25cc24d93e849351a9bf837bc08e4a69c078611c86d8393e` |
 
+## Flashing from a Windows PC (before mounting it)
+
+The simplest way to flash a new Eddy is on your computer, before it goes on
+the printer. No software to install; Windows sees the Eddy as a USB drive.
+
+> **Eddy Duo:** switch it to **USB mode** first.
+
+1. **Download the firmware.** Open [`btteddy-usb.uf2`](btteddy-usb.uf2) on
+   GitHub and click **Download raw file** (the download arrow at the top
+   right of the file view). Save it somewhere easy, like Downloads.
+2. *(Optional)* **Check the download.** In PowerShell, in the folder you
+   saved it to:
+   ```powershell
+   Get-FileHash .\btteddy-usb.uf2 -Algorithm SHA256
+   ```
+   The hash should match the SHA-256 at the top of this page.
+3. **Put the Eddy in boot mode.** With the Eddy unplugged, hold its **BOOT**
+   button (next to the cable plug) and plug its USB cable into your PC.
+   Release the button after a couple of seconds.
+4. **Find the drive.** A new drive called **RPI-RP2** appears in File
+   Explorer (it contains `INDEX.HTM` and `INFO_UF2.TXT`). If it doesn't:
+   unplug, and try again holding BOOT the whole time you plug in; try a
+   different USB port; or try another cable, since some cables only charge
+   and carry no data.
+5. **Copy the firmware.** Drag `btteddy-usb.uf2` onto the **RPI-RP2** drive.
+   The drive disappears on its own within a few seconds: that means the
+   Eddy flashed and restarted. Windows may show an error that the copy
+   didn't finish or the drive was removed; that's normal here.
+6. **Check it (optional).** In **Device Manager** under **Ports (COM &
+   LPT)** a new USB serial device appears while the Eddy is plugged in. That
+   is the Eddy running Klipper.
+7. Unplug the Eddy and mount and connect it to the printer
+   ([hardware guide](../docs/EDDY_HARDWARE.md)). Once connected, check over
+   SSH that `ls /dev/serial/by-id/` lists `usb-Klipper_rp2040_<serial>-if00`.
+
+Later updates can be done from the printer without unplugging anything
+(below).
+
 ## Flashing from the printer
 
 > **Risky:** a failed flash can brick the Eddy. An **Eddy Duo must be
