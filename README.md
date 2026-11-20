@@ -14,7 +14,7 @@ I'm not going to ask for Money, a cup of coffee or send you to an affilate page 
 # Prerequisites installation assumes fresh factory reset for install
 1. Firmware must be 2.3.5.34 I have heard from multiple users and there have been several issues raised on 2.3.5.33 that were resolved by updating to 2.3.5.34
 2. Root the printer as shown on [creality-helper-script wiki page](https://guilouz.github.io/Creality-Helper-Script-Wiki/firmwares/install-and-update-rooted-firmware-k1/).
-3. Mount BTT Eddy to your printer then upload firmware to it according to [SimpleAF instructions](https://pellcorp.github.io/creality-wiki/btteddy/#probe-installation), but do not install SimpleAF itself.**(This install assumes default mount)**
+3. Mount BTT Eddy to your printer and flash it with the USB firmware included in this repo: [firmware/btteddy-usb.uf2](firmware/btteddy-usb.uf2). Flashing steps are in [firmware/README.md](firmware/README.md). Do not install SimpleAF itself. **(This install assumes default mount)**
 4. Make sure you run a bed mesh for default (with PRTouch) and SAVE_CONFIG before installing Eddy. The installer checks for it and will refuse without it.
 
 # Installation
