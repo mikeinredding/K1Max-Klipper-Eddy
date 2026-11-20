@@ -48,10 +48,21 @@ the printer. No software to install; Windows sees the Eddy as a USB drive.
    ([hardware guide](../docs/EDDY_HARDWARE.md)). Once connected, check over
    SSH that `ls /dev/serial/by-id/` lists `usb-Klipper_rp2040_<serial>-if00`.
 
-Later updates can be done from the printer without unplugging anything
-(below).
+You normally only flash once: this firmware isn't expected to need updates.
+If the Eddy ever stops working because its firmware got corrupted, you can
+re-flash it from the printer without taking it off (below).
 
-## Flashing from the printer
+## Flashing from the printer (re-flash or recovery)
+
+Use this if the Eddy stops showing up or misbehaves and you suspect its
+firmware, or if you'd rather flash it already mounted.
+
+- **Eddy still shows up** in `ls /dev/serial/by-id/` as
+  `usb-Klipper_rp2040_...`: use the menu or the bootloader steps below, no
+  BOOT button needed.
+- **Eddy doesn't show up at all** (firmware corrupted): the Eddy can't be
+  rebooted from software, so use the BOOT button method at the end of this
+  section. The Eddy menu option 4 detects an Eddy put in boot mode this way.
 
 > **Risky:** a failed flash can brick the Eddy. An **Eddy Duo must be
 > switched to USB mode first**; one flashed for CAN at the factory may not

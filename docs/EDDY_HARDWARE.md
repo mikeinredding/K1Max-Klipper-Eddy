@@ -57,6 +57,10 @@ Flash the Eddy with the firmware in this repo. Either:
   the steps in [firmware/README.md](../firmware/README.md). If the Eddy
   already runs Klipper (most do from the factory) no BOOT button is needed.
 
+You should only need to flash once. If the firmware ever gets corrupted, you
+can re-flash it from the printer the same way without removing the Eddy (if it
+no longer shows up on USB, hold its BOOT button while reconnecting it).
+
 ## 5. Connect it
 
 - **Eddy Duo:** switch it to **USB mode** first. This project only supports
