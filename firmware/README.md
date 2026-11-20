@@ -54,6 +54,11 @@ firmware is already in the repo.
 
 To check the file, compare `sha256sum btteddy-usb.uf2` with the SHA-256 above.
 
+## Credits
+
+The flashing-from-the-printer steps are adapted from pellcorp's BTT Eddy /
+EddyNG flashing guide for SimpleAF.
+
 ## License
 
 Klipper is licensed under the GNU GPLv3. This file is a build of Klipper
