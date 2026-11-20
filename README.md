@@ -31,7 +31,7 @@ git clone https://github.com/mikeinredding/K1Max-Klipper-Eddy.git /usr/data/K1Ma
 sh /usr/data/K1Max-Klipper-Eddy/eddyhelper.sh
 ```
 4. From **[Install] Menu** install options 1, 3, 4, 5, 10, 11, 13 (Moonraker and Nginx, Mainsail, Entware, Klipper Gcode Shell Command, Improved Shapers Calibrations, Useful Macros, Screws Tilt Adjust Support). These are the options I have installed; others may work but **option 8 Nozzle Cleaning Fan Control will break Klipper with Eddy**, so the script blocks it once Eddy is installed (and Eddy won't install while it is). KAMP (6) and Save Z-Offset Macros (12) are untested and ask for confirmation.
-5. Go to **[BTT Eddy] Menu** (main menu option 8). The top of the menu shows status, and option 7 shows a prerequisites checklist.
+5. Go to **[BTT Eddy] Menu** (main menu option 8). The top of the menu shows status, and option 8 shows a prerequisites checklist.
 6. Choose **1 Install BTT Eddy Duo**. It will:
    - check firmware, the saved default mesh, that printer.cfg/sensorless.cfg are stock, and that the Eddy is on USB (asks which one if there's more than one RP2040)
    - back up printer.cfg, gcode_macro.cfg, sensorless.cfg and every Klipper module it replaces to `/usr/data/eddy-helper-backup`
@@ -55,8 +55,9 @@ sh /usr/data/K1Max-Klipper-Eddy/eddyhelper.sh
 ## Other [BTT Eddy] menu options
 - **2 Remove BTT Eddy Duo**: re-enables PRTouch, restores the stock Klipper modules, and undoes only the Eddy edits to printer.cfg, sensorless.cfg and gcode_macro.cfg (your other edits and saved meshes are kept; Eddy calibration is removed from SAVE_CONFIG). Copies of the files as they were are saved in `/usr/data/eddy-helper-backup/removed-<date>`. If Eddy was installed with an older version of this script there is no backup of the Klipper modules, so those stay; everything else is still undone.
 - **3 Re-detect Eddy USB serial**: fixes a wrong or missing `serial:` in eddy.cfg (e.g. after swapping the Eddy).
-- **4 Switch Screws Tilt Adjust positions**: toggles between Eddy (probe 23mm left of nozzle) and stock positions.
-- **5 / 6 Automated Cleanup**: a delayed gcode that deletes print gcode files and timelapse videos older than 30 days, 2 minutes after boot. Needs Klipper Gcode Shell Command.
+- **4 Flash Eddy firmware (from printer)**: flashes the USB firmware in this repo. If the Eddy already runs Klipper it reboots it into its bootloader, so no BOOT button is needed. See [firmware/README.md](firmware/README.md).
+- **5 Switch Screws Tilt Adjust positions**: toggles between Eddy (probe 23mm left of nozzle) and stock positions.
+- **6 / 7 Automated Cleanup**: a delayed gcode that deletes print gcode files and timelapse videos older than 30 days, 2 minutes after boot. Needs Klipper Gcode Shell Command.
 
 ## Coming from the separate Creality Helper Script?
 Anything you installed with Guilouz's script links to files in `/usr/data/helper-script`, so keep that folder, or remove those options with the old `helper` command and reinstall them from `eddyhelper`. The `helper` command keeps working alongside `eddyhelper`.

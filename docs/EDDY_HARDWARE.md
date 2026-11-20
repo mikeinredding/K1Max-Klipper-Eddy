@@ -59,8 +59,10 @@ nozzle can dig into those plates.
 
 ## 5. Flash the firmware
 
-Flash the Eddy with the firmware in this repo, from the printer over SSH:
-see [firmware/README.md](../firmware/README.md).
+Flash the Eddy with the firmware in this repo from the printer: use
+**[BTT Eddy] Menu, option 4**, or the steps in
+[firmware/README.md](../firmware/README.md). If the Eddy already runs
+Klipper (most do from the factory) no BOOT button is needed.
 
 ## 6. Calibration tips
 

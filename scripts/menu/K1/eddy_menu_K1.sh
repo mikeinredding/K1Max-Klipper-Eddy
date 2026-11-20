@@ -45,14 +45,15 @@ function eddy_menu_ui_k1() {
   menu_option '1' 'Install' 'BTT Eddy Duo'
   menu_option '2' 'Remove' 'BTT Eddy Duo'
   menu_option '3' 'Re-detect' 'Eddy USB serial'
+  menu_option '4' 'Flash' 'Eddy firmware (from printer)'
   hr
   subtitle '•EXTRAS:'
-  menu_option '4' 'Switch' 'Screws Tilt Adjust positions (Eddy/stock)'
-  menu_option '5' 'Install' 'Automated Cleanup'
-  menu_option '6' 'Remove' 'Automated Cleanup'
+  menu_option '5' 'Switch' 'Screws Tilt Adjust positions (Eddy/stock)'
+  menu_option '6' 'Install' 'Automated Cleanup'
+  menu_option '7' 'Remove' 'Automated Cleanup'
   hr
   subtitle '•HELP:'
-  menu_option '7' 'Check' 'Prerequisites'
+  menu_option '8' 'Check' 'Prerequisites'
   hr
   inner_line
   hr
@@ -69,7 +70,7 @@ function eddy_prerequisites_k1() {
   hr
   subtitle '•REQUIRED BEFORE INSTALL:'
   info_line "$(eddy_check eddy_fw_ok)" "Firmware ${EDDY_TESTED_FW}"
-  info_line "$(eddy_check eddy_usb_present)" 'Eddy flashed and connected on USB'
+  info_line "$(eddy_check eddy_usb_present)" 'Eddy flashed and connected on USB (Flash: 4)'
   info_line "$(eddy_check eddy_has_saved_mesh)" "Saved 'default' bed mesh in printer.cfg"
   info_line "$(eddy_check web_console_present)" 'Moonraker + Mainsail/Fluidd (Install 1, 3)'
   hr
@@ -116,7 +117,7 @@ function eddy_menu_k1() {
         else
           run "redetect_eddy_serial" "eddy_menu_ui_k1"
         fi;;
-      4)
+      5)
         if ! screws_installed; then
           error_msg "Screws Tilt Adjust Support is not installed!"
           echo -e " ${darkred}Install it first from the [Install] Menu (option 13).${white}"
@@ -124,7 +125,7 @@ function eddy_menu_k1() {
         else
           run "toggle_eddy_screws_tilt" "eddy_menu_ui_k1"
         fi;;
-      5)
+      6)
         if cleanup_installed; then
           error_msg "Automated Cleanup is already installed!"
         elif ! shell_command_present; then
@@ -132,13 +133,15 @@ function eddy_menu_k1() {
         else
           run "install_cleanup" "eddy_menu_ui_k1"
         fi;;
-      6)
+      7)
         if ! cleanup_installed; then
           error_msg "Automated Cleanup is not installed!"
         else
           run "remove_cleanup" "eddy_menu_ui_k1"
         fi;;
-      7)
+      4)
+        run "flash_eddy_firmware" "eddy_menu_ui_k1";;
+      8)
         clear
         eddy_prerequisites_k1
         break;;

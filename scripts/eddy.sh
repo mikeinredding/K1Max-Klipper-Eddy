@@ -644,3 +644,131 @@ function toggle_eddy_screws_tilt(){
   ok_msg "Screws Tilt Adjust now uses ${target} probe positions!"
   return 0
 }
+
+#---------------------------------------------------------------------------
+# Firmware flashing (bootloader method adapted from pellcorp's EddyNG
+# flashing guide for SimpleAF)
+#---------------------------------------------------------------------------
+
+function eddy_boot_drive() {
+  # Prints the mount folder of an RP2040 in boot mode, empty if none
+  local info
+  for info in "$EDDY_UDISK_FOLDER"/*/INFO_UF2.TXT; do
+    if [ -f "$info" ]; then
+      dirname "$info"
+      return 0
+    fi
+  done
+  return 0
+}
+
+function eddy_python() {
+  if [ -x "$EDDY_PYTHON" ]; then
+    echo "$EDDY_PYTHON"
+  else
+    command -v python3 || true
+  fi
+}
+
+function eddy_flash_message(){
+  top_line
+  title 'Flash BTT Eddy firmware' "${yellow}"
+  inner_line
+  hr
+  text_line "Flashes the Eddy with the USB firmware in this repo"
+  text_line "(Klipper ${EDDY_FW_VERSION}) from the printer."
+  hr
+  text_line "If the Eddy already runs Klipper, no BOOT button is needed." "${white}"
+  text_line "A failed flash can brick the Eddy. Eddy Duo: USB mode only." "${darkred}"
+  hr
+  bottom_line
+}
+
+function eddy_wait_for() {
+  # $1 = seconds, $2 = "drive" (wait for boot drive) or "gone" (wait for it
+  # to disappear). Returns 1 on timeout. Call inside `if`.
+  local i=0
+  while [ "$i" -lt "$1" ]; do
+    if [ "$2" = "drive" ] && [ -n "$(eddy_boot_drive)" ]; then
+      return 0
+    fi
+    if [ "$2" = "gone" ] && [ -z "$(eddy_boot_drive)" ]; then
+      return 0
+    fi
+    sleep 1
+    i=$((i + 1))
+  done
+  return 1
+}
+
+function flash_eddy_firmware(){
+  eddy_flash_message
+  local yn drive py
+  if [ ! -f "$EDDY_FW_FILE" ]; then
+    error_msg "Firmware file not found: ${EDDY_FW_FILE}"
+    return 0
+  fi
+  if ! eddy_ask_yes_no "Flash the Eddy now?"; then
+    error_msg "Flashing canceled!"
+    return 0
+  fi
+
+  drive="$(eddy_boot_drive)"
+  if [ -n "$drive" ]; then
+    echo -e "Info: An RP2040 is already in boot mode at ${yellow}${drive}${white}"
+  else
+    if ! eddy_choose_serial; then
+      echo -e " ${white}If the Eddy has no Klipper firmware yet, put it in boot mode by hand:${white}"
+      echo -e " ${white}unplug it, hold BOOT, plug it back in, then run this option again.${white}"
+      echo
+      return 0
+    fi
+    py="$(eddy_python)"
+    if [ -z "$py" ]; then
+      error_msg "Python not found, cannot enter the bootloader!"
+      return 0
+    fi
+    echo -e "Info: Rebooting the Eddy into its bootloader..."
+    if ! "$py" "$EDDY_BOOTLOADER_TOOL" "$EDDY_MCU"; then
+      error_msg "Could not put the Eddy into boot mode!"
+      return 0
+    fi
+    echo -e "Info: Waiting for the Eddy boot drive (up to 30s)..."
+    if ! eddy_wait_for 30 drive; then
+      error_msg "The Eddy boot drive did not appear!"
+      echo -e " ${darkred}Put it in boot mode by hand (unplug, hold BOOT, plug in) and run${white}"
+      echo -e " ${darkred}this option again. Check that ${EDDY_UDISK_FOLDER} is where USB drives mount.${white}"
+      echo
+      return 0
+    fi
+    drive="$(eddy_boot_drive)"
+    echo -e "Info: Eddy boot drive found at ${yellow}${drive}${white}"
+  fi
+
+  echo -e "Info: Copying firmware..."
+  cp "$EDDY_FW_FILE" "$drive"/
+  sync
+  echo -e "Info: Waiting for the Eddy to restart (up to 30s)..."
+  if ! eddy_wait_for 30 gone; then
+    error_msg "The boot drive is still there, flashing may have failed!"
+    echo -e " ${darkred}Unplug and replug the Eddy, then check: ls /dev/serial/by-id/${white}"
+    echo
+    return 0
+  fi
+  sleep 3
+  if [ -z "$(eddy_usb_devices)" ]; then
+    error_msg "The Eddy is not back on USB yet!"
+    echo -e " ${darkred}Wait a few seconds, then check: ls /dev/serial/by-id/${white}"
+    echo -e " ${darkred}If it does not show up, unplug and replug the Eddy.${white}"
+    echo
+    return 0
+  fi
+  if eddy_installed; then
+    echo -e "Info: Restarting Klipper service..."
+    restart_klipper
+  fi
+  ok_msg "BTT Eddy firmware has been flashed!"
+  echo -e " ${white}Check the Eddy reports ${yellow}${EDDY_FW_VERSION}${white} in the System tab of Mainsail/Fluidd.${white}"
+  echo
+  return 0
+}

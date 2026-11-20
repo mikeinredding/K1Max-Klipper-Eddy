@@ -206,6 +206,11 @@ function set_paths() {
   EDDY_KLIPPY_BACKUP="${EHS_BACKUP_FOLDER}/klippy"
   EDDY_NEW_FILES_LIST="${EHS_BACKUP_FOLDER}/klippy-new-files.list"
   EDDY_SERIAL_GLOB="/dev/serial/by-id/usb-Klipper_rp2040*"
+  EDDY_FW_FILE="${HELPER_SCRIPT_FOLDER}/firmware/btteddy-usb.uf2"
+  EDDY_FW_VERSION="v0.12.0-425-g69cf71ec7"
+  EDDY_BOOTLOADER_TOOL="${HELPER_SCRIPT_FOLDER}/firmware/enter_bootloader.py"
+  EDDY_UDISK_FOLDER="/tmp/udisk"
+  EDDY_PYTHON="/usr/share/klippy-env/bin/python"
 
   # Screws Tilt Adjust positions for Eddy (probe is 23mm left of nozzle) #
   SCREWS_ADJUST_K1_EDDY_URL="${HS_FILES}/screws-tilt-adjust/screws-tilt-adjust-k1-eddy.cfg"
