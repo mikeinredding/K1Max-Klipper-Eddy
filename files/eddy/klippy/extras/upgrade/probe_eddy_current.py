@@ -429,7 +429,19 @@ class PrinterEddyProbe:
             config, self, self.mcu_probe.query_endstop)
         self.probe_offsets = probe.ProbeOffsetsHelper(config)
         self.probe_session = probe.ProbeSessionHelper(config, self.mcu_probe)
+        self.z_offset = self.probe_offsets.get_offsets()[2]
         self.printer.add_object('probe', self)
+    @property
+    def z_offset(self):
+        if hasattr(self, '_custom_z_offset') and self._custom_z_offset is not None:
+            return self._custom_z_offset
+        try:
+            return self.probe_offsets.get_offsets()[2]
+        except Exception:
+            return 0.0
+    @z_offset.setter
+    def z_offset(self, val):
+        self._custom_z_offset = float(val)
     def add_client(self, cb):
         self.sensor_helper.add_client(cb)
     def get_probe_params(self, gcmd=None):

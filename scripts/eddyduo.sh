@@ -20,7 +20,7 @@ function install_eddyduo(){
 		case "${yn}" in
       		Y|y)
         	echo -e "${white}"
-        	if [ -f "$EDDY_CFG"]; then
+        	if [ -f "$EDDY_CFG" ]; then
           		rm -f "$EDDY_CFG" 
         	fi
         echo
@@ -36,6 +36,27 @@ function install_eddyduo(){
                             cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg #fixed source path
                 			cp -f "$EDDY_K1_URL" "$EDDY_FOLDER"/eddy.cfg
 		         		 	rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
+							if [ -f "$EHS_FILES/fixes/gcode.py" ]; then
+								cp -f "$EHS_FILES/fixes/gcode.py" /usr/share/klipper/klippy/gcode.py
+							fi
+							if [ -f "/usr/share/klipper/klippy/extras/box.py" ]; then
+								if ! grep -q "_safe_rec" "/usr/share/klipper/klippy/extras/box.py"; then
+									cat << 'EOF_BOX' >> "/usr/share/klipper/klippy/extras/box.py"
+try:
+    if hasattr(MultiColorMeterialBoxWrapper, 'record_tn_move_z'):
+        _orig_rec = MultiColorMeterialBoxWrapper.record_tn_move_z
+        def _safe_rec(self, *args, **kwargs):
+            try:
+                return _orig_rec(self, *args, **kwargs)
+            except Exception:
+                pass
+        MultiColorMeterialBoxWrapper.record_tn_move_z = _safe_rec
+except Exception:
+    pass
+EOF_BOX
+								fi
+							fi
+							find /usr/share/klipper/klippy -name "*.pyc" -delete 2>/dev/null || true
                	    	 	break;;
               			K1MAX|k1max)
                 			echo -e "${white}"
@@ -44,6 +65,27 @@ function install_eddyduo(){
                 			cp -f "$EDDY_K1M_URL" "$EDDY_FOLDER"/eddy.cfg
 					cp -f "$EHS_CONFIGS/fan_control.cfg" "$EDDY_FOLDER"/fan_control.cfg
                 			rsync --verbose --recursive $EDDY_KLIPPY $EDDY_KLIPPER_FOLDER
+							if [ -f "$EHS_FILES/fixes/gcode.py" ]; then
+								cp -f "$EHS_FILES/fixes/gcode.py" /usr/share/klipper/klippy/gcode.py
+							fi
+							if [ -f "/usr/share/klipper/klippy/extras/box.py" ]; then
+								if ! grep -q "_safe_rec" "/usr/share/klipper/klippy/extras/box.py"; then
+									cat << 'EOF_BOX' >> "/usr/share/klipper/klippy/extras/box.py"
+try:
+    if hasattr(MultiColorMeterialBoxWrapper, 'record_tn_move_z'):
+        _orig_rec = MultiColorMeterialBoxWrapper.record_tn_move_z
+        def _safe_rec(self, *args, **kwargs):
+            try:
+                return _orig_rec(self, *args, **kwargs)
+            except Exception:
+                pass
+        MultiColorMeterialBoxWrapper.record_tn_move_z = _safe_rec
+except Exception:
+    pass
+EOF_BOX
+								fi
+							fi
+							find /usr/share/klipper/klippy -name "*.pyc" -delete 2>/dev/null || true
                 		break;;
               			*)
                 			error_msg "Please select a correct choice!";;
