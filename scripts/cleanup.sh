@@ -1,44 +1,50 @@
 #!/bin/sh
 
+set -e
+
 function cleanup_message(){
   top_line
-  title 'Cleanup' "${yellow}"
+  title 'Automated Cleanup' "${yellow}"
   inner_line
   hr
-  echo -e " │ ${cyan}This is an delayed GCode to cleanup videos and gcodes older    ${white}│"
-  echo -e " │ ${cyan}than 30 days. 2 minutes after boot any print gcodes and        ${white}│"
-  echo -e " │ ${cyan}timelapse videos older than 30 days will be deleted.           ${white}│"
-  echo -e " │ ${cyan}Review files before installing and make sure you have copies!  ${white}│"
+  text_line "A delayed G-code that runs 2 minutes after boot and deletes"
+  text_line "print G-code files and timelapse videos older than 30 days."
+  text_line "Deleted files are logged to /var/log/creality_cleanup.log."
+  hr
+  text_line "Review your files before installing and keep copies!" "${darkred}"
   hr
   bottom_line
+}
+
+function cleanup_installed() {
+  [ -f "$CLEANUP_FILE" ] && return 0
+  grep -q "include Eddy-Helper/cleanup/cleanup\.cfg" "$PRINTER_CFG" 2>/dev/null
 }
 
 function install_cleanup(){
   cleanup_message
   local yn
   while true; do
-    install_msg "Cleanup" yn
+    install_msg "Automated Cleanup" yn
     case "${yn}" in
       Y|y)
         echo -e "${white}"
-        if [ -f "CLEANUP_FILE" ]; then
-          rm -f "CLEANUP_FILE"
-        fi
-	mkdir -p "$CLEANUP_FOLDER"
-	cp -f "$CLEANUP_FILE" "$CLEANUP_CONFIG_FILE"
-        if grep -q "include eddyhelper/cleanup" "$PRINTER_CFG" ; then
-          echo -e "Info: Cleanup configuration are already enabled in printer.cfg file..."
+        echo -e "Info: Copying file..."
+        mkdir -p "$CLEANUP_FOLDER"
+        cp -f "$CLEANUP_URL" "$CLEANUP_FILE"
+        if grep -q "include Eddy-Helper/cleanup/cleanup\.cfg" "$PRINTER_CFG" ; then
+          echo -e "Info: Cleanup configuration is already enabled in printer.cfg file..."
         else
           echo -e "Info: Adding Cleanup configuration in printer.cfg file..."
-          sed -i '/\[include printer_params\.cfg\]/a \[include Eddy-Helper/cleanup/cleanup\.cfg\]' "$PRINTER_CFG"
+          sed -i '/^\[include printer_params\.cfg\]/a \[include Eddy-Helper/cleanup/cleanup\.cfg\]' "$PRINTER_CFG"
         fi
         echo -e "Info: Restarting Klipper service..."
         restart_klipper
-        ok_msg "Cleanup installed successfully!"
-        return;;
+        ok_msg "Automated Cleanup has been installed successfully!"
+        return 0;;
       N|n)
         error_msg "Installation canceled!"
-        return;;
+        return 0;;
       *)
         error_msg "Please select a correct choice!";;
     esac
@@ -49,25 +55,28 @@ function remove_cleanup(){
   cleanup_message
   local yn
   while true; do
-    remove_msg "Cleanup" yn
+    remove_msg "Automated Cleanup" yn
     case "${yn}" in
       Y|y)
         echo -e "${white}"
         echo -e "Info: Removing files..."
-        rm -f "CLEANUP_FILE"
-        if grep -q "include cleanup" "$PRINTER_CFG" ; then
-          echo -e "Info: Removing cleanup configuration in printer.cfg file..."
-          sed -i '/include cleanup\.cfg/d' "$PRINTER_CFG"
+        rm -rf "$CLEANUP_FOLDER"
+        if grep -q "include Eddy-Helper/cleanup/cleanup\.cfg" "$PRINTER_CFG" ; then
+          echo -e "Info: Removing Cleanup configuration in printer.cfg file..."
+          sed -i '/include Eddy-Helper\/cleanup\/cleanup\.cfg/d' "$PRINTER_CFG"
         else
-          echo -e "Info: cleanup configuration are already removed in printer.cfg file..."
+          echo -e "Info: Cleanup configuration is already removed in printer.cfg file..."
+        fi
+        if [ -d "$EHS_CONFIG_FOLDER" ] && [ -z "$(ls -A "$EHS_CONFIG_FOLDER")" ]; then
+          rm -rf "$EHS_CONFIG_FOLDER"
         fi
         echo -e "Info: Restarting Klipper service..."
         restart_klipper
-        ok_msg "Nozzle Cleaning Fan Control has been removed successfully!"
-        return;;
+        ok_msg "Automated Cleanup has been removed successfully!"
+        return 0;;
       N|n)
         error_msg "Deletion canceled!"
-        return;;
+        return 0;;
       *)
         error_msg "Please select a correct choice!";;
     esac
